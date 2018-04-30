@@ -20,15 +20,10 @@ class TwitterUser:
 		else:
 			self.existence = False
 
-	def hashtags_from(self, day, month, year, hour=0, minute=0):
+	def retrieve_info_from(self, day, month, year, hour=0, minute=0):
 		api = TwitterAPI()
 		tweets = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
-		hashtags = TwitterAPI.extract_hashtags(tweets)
-		return hashtags
-
-	def mentions_from(self, day, month, year, hour=0, minute=0):
-		api = TwitterAPI()
-		tweets = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
-		mentions = TwitterAPI.extract_mentions(tweets)
-		return mentions
+		self.hashtags = TwitterAPI.extract_hashtags(tweets)
+		self.mentions = TwitterAPI.extract_mentions(tweets)
+		
 	

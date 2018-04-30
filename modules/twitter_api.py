@@ -75,7 +75,7 @@ class TwitterAPI(tweepy.API):
         mapped = [[x,mentions.count(x)] for x in set(mentions)]
         mapped.sort(key=lambda tuple: tuple[1], reverse=True)
 
-        return [ x[0] for x in mapped] 
+        return [x[0] for x in mapped] 
 
 
 
