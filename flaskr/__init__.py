@@ -2,13 +2,17 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'jdbc:mysql://localhost:3306/twitter_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://postgres:password@localhost/twitter_db"
 db = SQLAlchemy(app)
 
-class Report(db.model):
+class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(10))
+    date = db.Column(db.String(20))
     csv_content = db.Column(db.LargeBinary)
+
+    def __init__(self, date, csv_content):
+        self.date = date
+        self.csv_content = csv_content
 
     def __repr__(self):
         return '<Report %r>' % self.id
