@@ -15,6 +15,8 @@ class TwitterUser:
 				self.tweets_count = user.statuses_count
 				self.following_count = user.friends_count
 				self.likes_count = user.favourites_count
+				self.hashtags = []
+				self.mentions = [] 
 			except Exception as e:
 				self.existence = False
 		else:

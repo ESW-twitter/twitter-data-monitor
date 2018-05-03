@@ -106,3 +106,4 @@ helpers/keys.json
 /keys.json
 *.ipynb
 keys.json
+modules/__os_setup__
