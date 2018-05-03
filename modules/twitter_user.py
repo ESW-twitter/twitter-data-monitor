@@ -15,13 +15,16 @@ class TwitterUser:
 				self.tweets_count = user.statuses_count
 				self.following_count = user.friends_count
 				self.likes_count = user.favourites_count
+				self.hashtags = []
+				self.mentions = []
 			except Exception as e:
 				self.existence = False
 		else:
 			self.existence = False
 
-	def hashtags_from(self, day, month, year):
+
+	def retrieve_info_from(self, day, month, year, hour=0, minute=0):
 		api = TwitterAPI()
-		tweets = api.get_user_tweets_from(self.username, day, month, year)
-		hashtags = TwitterAPI.extract_hashtags(tweets)
-		return hashtags
+		tweets = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
+		self.hashtags = TwitterAPI.extract_hashtags(tweets)
+		self.mentions = TwitterAPI.extract_mentions(tweets)
