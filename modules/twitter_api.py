@@ -21,17 +21,17 @@ class TwitterAPI(tweepy.API):
         tweet_list = []
         min_date = datetime.datetime(year, month, day, hour, minute, 0)
         kwargs = {'screen_name': username,'count': 200,'tweet_mode': 'extended'}
-        
+
         while True:
-            temp = self.user_timeline(**kwargs) 
+            temp = self.user_timeline(**kwargs)
             if not temp or temp[-1].created_at < min_date:
                 break
-            tweet_list.extend(temp)    
+            tweet_list.extend(temp)
             max_id = temp[-1].id - 1
-            kwargs.update({'max_id': max_id})    
+            kwargs.update({'max_id': max_id})
 
         temp = [i for i in temp if i.created_at >= min_date]
-        tweet_list.extend(temp)  
+        tweet_list.extend(temp)
         return tweet_list
 
 
@@ -46,17 +46,17 @@ class TwitterAPI(tweepy.API):
             for hashtag in tweet.entities['hashtags']:
                 lower.append(hashtag['text'].lower())
                 hashtags.append(hashtag['text'])
-        
-        mapped = [[x,lower.count(x)] for x in set(lower)]        
+
+        mapped = [[x,lower.count(x)] for x in set(lower)]
         mapped.sort(key=lambda tuple: tuple[1], reverse=True)
-        final = [x[0] for x in mapped] 
+        final = [x[0] for x in mapped]
 
         for hashtag in hashtags:
             if hashtag.lower() in final:
                 final[final.index(hashtag.lower())] = hashtag
 
         return final
-    
+
 
     @staticmethod
     def extract_mentions(tweet_list):
@@ -66,18 +66,9 @@ class TwitterAPI(tweepy.API):
         mentions = []
         for tweet in tweet_list:
             for mention in tweet.entities['user_mentions']:
-                mentions.append(mention['screen_name'])    
+                mentions.append(mention['screen_name'])
 
         mapped = [[x,mentions.count(x)] for x in set(mentions)]
         mapped.sort(key=lambda tuple: tuple[1], reverse=True)
 
-        return [x[0] for x in mapped] 
-
-
-
-
-
-
-
-
-
+        return [x[0] for x in mapped]
