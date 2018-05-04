@@ -8,10 +8,7 @@ class TestTwitterUser(unittest.TestCase):
 	def test_name_retrieval(self):
 		user = TwitterUser('siqueiralex')
 		self.assertEqual('Alex Siqueira', user.name)
-
-	def test_id_retrieval(self):
-		user = TwitterUser('alegomes')
-		self.assertEqual(14147108, user.id)
+		self.assertEqual(52126452, user.id)
 
 	def test_account_existance(self):
 		user = TwitterUser('')

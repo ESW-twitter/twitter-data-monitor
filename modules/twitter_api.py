@@ -34,7 +34,6 @@ class TwitterAPI(tweepy.API):
         tweet_list.extend(temp)
         return tweet_list
 
-
     @staticmethod
     def extract_hashtags(tweet_list):
         '''
@@ -72,3 +71,19 @@ class TwitterAPI(tweepy.API):
         mapped.sort(key=lambda tuple: tuple[1], reverse=True)
 
         return [x[0] for x in mapped]
+
+    @staticmethod
+    def extract_retweets(tweet_list):
+        retweets = 0
+        for tweet in tweet_list:
+            if not hasattr(tweet, 'retweeted_status'):
+                retweets += tweet.retweet_count
+        return retweets
+
+    @staticmethod
+    def extract_favorites(tweet_list):
+        favorites = 0
+        for tweet in tweet_list:
+            if not hasattr(tweet, 'retweeted_status'):
+                favorites += tweet.favorite_count
+        return favorites
