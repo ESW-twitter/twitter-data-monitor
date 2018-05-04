@@ -41,7 +41,6 @@ def generate_csv_report():
 sched = BlockingScheduler()
 @sched.scheduled_job('interval', minutes=2)
 def generate_reports():
-    print('oi')
     generate_csv_report()
 
 
