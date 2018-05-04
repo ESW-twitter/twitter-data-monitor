@@ -16,7 +16,9 @@ class TwitterUser:
 				self.following_count = user.friends_count
 				self.likes_count = user.favourites_count
 				self.hashtags = []
-				self.mentions = [] 
+				self.mentions = []
+				self.retweets_count = 0
+				self.favorites_count = 0 
 			except Exception as e:
 				self.existence = False
 		else:
@@ -27,5 +29,7 @@ class TwitterUser:
 		tweets = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
 		self.hashtags = TwitterAPI.extract_hashtags(tweets)
 		self.mentions = TwitterAPI.extract_mentions(tweets)
+		self.retweets_count = TwitterAPI.extract_retweets(tweets)
+		self.favorites_count = TwitterAPI.extract_favorites(tweets)
 		
 	

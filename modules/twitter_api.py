@@ -32,8 +32,7 @@ class TwitterAPI(tweepy.API):
 
         temp = [i for i in temp if i.created_at >= min_date]
         tweet_list.extend(temp)  
-        return tweet_list
-
+        return tweet_list 
 
     @staticmethod
     def extract_hashtags(tweet_list):
@@ -73,7 +72,23 @@ class TwitterAPI(tweepy.API):
 
         return [x[0] for x in mapped] 
 
+    @staticmethod    
+    def extract_retweets(tweet_list):
+        retweets = 0
+        for tweet in tweet_list:
+            if not hasattr(tweet, 'retweeted_status'):
+                retweets += tweet.retweet_count
+        return retweets
 
+    @staticmethod
+    def extract_favorites(tweet_list):
+        favorites = 0
+        for tweet in tweet_list:
+            if not hasattr(tweet, 'retweeted_status'):
+                favorites += tweet.favorite_count
+        return favorites
+
+       
 
 
 

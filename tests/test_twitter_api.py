@@ -30,5 +30,15 @@ class TestTwitterAPI(unittest.TestCase):
 		self.assertIn('sonolencio', mentions)
 		self.assertIn('Pirulla25', mentions)	
 
+	def test_retweets(self):
+		warnings.filterwarnings("ignore", category=ResourceWarning)
+		tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
+		self.assertEqual(592, TwitterAPI.extract_retweets(tweets))	
+
+	def test_favorites(self):
+		warnings.filterwarnings("ignore", category=ResourceWarning)
+		tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
+		self.assertEqual(5718, TwitterAPI.extract_favorites(tweets))		
+
 if __name__ == '__main__':
     unittest.main()
