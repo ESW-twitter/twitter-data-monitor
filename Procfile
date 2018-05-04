@@ -1,2 +1,1 @@
-
-web: python3 __init__.py
+web: gunicorn __init__:app
