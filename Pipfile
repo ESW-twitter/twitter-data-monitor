@@ -18,7 +18,9 @@ tweepy = "==3.5.0"
 python-dateutil = "*"
 ipdb = "==0.9.0"
 "flake8" = "*"
-rq = "*"
+Flask==1.0
+Flask-SQLAlchemy==2.3.2
+APScheduler==3.0.0
 
 [requires]
 python_version = "3.5"
