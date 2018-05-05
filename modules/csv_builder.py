@@ -5,26 +5,28 @@ import os
 class CsvBuilder:
 
     @staticmethod
-    def create_csv_basic():
-        with open(os.path.join(os.path.dirname(__file__), 'results/autores.csv'), 'w+') as csvfile:
+    def create_csv_basic(name):
+        with open(os.path.join(os.path.dirname(__file__), '../results/'+name+".csv"), 'w+') as csvfile:
             writer_t = csv.writer(csvfile, delimiter=';')
-            writer_t.writerow(["nome", "seguidores", "tweets", "seguindo", "curtidas", "hashtags"])
+            writer_t.writerow(["nome", "seguidores", "tweets", "seguindo", "curtidas","retweets", "favorites", "hashtags", "mentions"])
             csvfile.close()
 
     @staticmethod
-    def update_csv_new_autors(user):
-        hashtag = TwitterUser.last_month_hashtags(user)
-        with open(os.path.join(os.path.dirname(__file__),'results/autores.csv'), 'a') as csvfile:
+    def update_csv_new_autors(name, user):
+        with open(os.path.join(os.path.dirname(__file__),'../results/'+name+".csv"), 'a') as csvfile:
             writer_t = csv.writer(csvfile, delimiter=';')
             writer_t.writerow([user.name, user.followers_count,
-            user.tweets_count, user.following_count, user.likes_count, CsvBuilder.word_separator(hashtag)])
+            user.tweets_count, user.following_count, user.likes_count, user.retweets_count, user.favorites_count, CsvBuilder.word_separator(user.hashtags, hashtag=True),CsvBuilder.word_separator(user.mentions) ])
             csvfile.close()
 
     @staticmethod
-    def word_separator(hashtag):
+    def word_separator(word_list, hashtag=False):
         row = ''
-        if len(hashtag) != 0:
-            for word in hashtag:
+        for word in word_list:
+            if hashtag:
                 word = '#' + word + ' '
-                row = row + word
+            else:
+                word = word + ' ' 
+            row = row + word
+    
         return row
