@@ -7,3 +7,5 @@ sched = BlockingScheduler()
 def generate_reports():
     # generate_csv_report()
     print("teste")
+
+sched.start()
