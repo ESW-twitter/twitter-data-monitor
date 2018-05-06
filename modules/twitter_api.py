@@ -21,7 +21,6 @@ class TwitterAPI(tweepy.API):
         tweet_list = []
         min_date = datetime.datetime(year, month, day, hour, minute, 0)
         kwargs = {'screen_name': username,'count': 200,'tweet_mode': 'extended'}
-        
         while True:
             temp = self.user_timeline(**kwargs) 
             if not temp or temp[-1].created_at < min_date:
@@ -31,7 +30,8 @@ class TwitterAPI(tweepy.API):
             kwargs.update({'max_id': max_id})    
 
         temp = [i for i in temp if i.created_at >= min_date]
-        tweet_list.extend(temp)  
+        tweet_list.extend(temp)
+
         return tweet_list 
 
     @staticmethod
