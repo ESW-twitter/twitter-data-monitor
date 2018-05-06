@@ -5,7 +5,7 @@ from __init__ import generate_csv_report
 
 listen = ['high', 'default', 'low']
 
-redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+redis_url = os.getenv('REDISTOGO_URL')
 
 conn = redis.from_url(redis_url)
 
