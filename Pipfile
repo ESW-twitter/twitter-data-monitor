@@ -23,6 +23,6 @@ Flask-SQLAlchemy = "==2.3.2"
 APScheduler = "==3.0.0"
 gunicorn = "*"
 rq = "*"
-
+psycopg2 ="2.7.5" 
 [requires]
 python_version = "3.5"
