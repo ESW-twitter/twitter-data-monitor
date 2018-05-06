@@ -40,17 +40,10 @@ def generate_csv_report():
     db.session.add(f)
     db.session.commit()
 
-sched = BlockingScheduler()
-@sched.scheduled_job('interval', minutes=1)
-def generate_reports():
-    generate_csv_report()
-
 
 @app.route('/')
 def hello_world():
    return  'Hello World'
 
 if __name__ == '__main__':
-    q = Queue(connection=conn)
-    q.enqueue(generate_reports)
     app.run()
