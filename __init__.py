@@ -9,7 +9,7 @@ from modules.twitter_user import TwitterUser
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://postgres:password@localhost/twitter_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
 
 class Report(db.Model):
