@@ -7,8 +7,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from modules.twitter_user import TwitterUser
 from apscheduler.schedulers.blocking import BlockingScheduler
-from rq import Queue
-from worker import conn
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
