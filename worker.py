@@ -1,7 +1,6 @@
 import os
 import redis
 from rq import Worker, Queue, Connection
-from __init__ import generate_csv_report
 
 listen = ['high', 'default', 'low']
 
