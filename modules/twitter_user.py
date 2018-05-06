@@ -18,11 +18,12 @@ class TwitterUser:
 				self.hashtags = []
 				self.mentions = []
 				self.retweets_count = 0
-				self.favorites_count = 0 
+				self.favorites_count = 0
 			except Exception as e:
 				self.existence = False
 		else:
 			self.existence = False
+
 
 	def retrieve_info_from(self, day, month, year, hour=0, minute=0):
 		api = TwitterAPI()
@@ -31,5 +32,3 @@ class TwitterUser:
 		self.mentions = TwitterAPI.extract_mentions(tweets)
 		self.retweets_count = TwitterAPI.extract_retweets(tweets)
 		self.favorites_count = TwitterAPI.extract_favorites(tweets)
-		
-	
