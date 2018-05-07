@@ -1,0 +1,4 @@
+<!doctype html>
+{% for report in reports %}
+  <a href="/download_csv/{{report.id}}">Baixar CSV ({{report.date}})</a>
+{% endfor %}
