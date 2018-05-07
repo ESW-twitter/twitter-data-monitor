@@ -14,6 +14,7 @@ class TestTwitterAPI():
         tweets2 = api.get_user_tweets_from('cirogomes', day=2, month=4, year=2018)
         assert(tweets2[-1].created_at >= datetime.datetime(2018, 4, 2)) == True
 
+
     def test_hashtags(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
         tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
@@ -39,3 +40,4 @@ class TestTwitterAPI():
         warnings.filterwarnings("ignore", category=ResourceWarning)
         tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
         assert 5718 == TwitterAPI.extract_favorites(tweets)
+

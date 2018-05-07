@@ -22,6 +22,7 @@ class TestFileCSV():
             row1 = next(reader)
             first_row = ["nome", "seguidores", "tweets", "seguindo", "curtidas","retweets", "favorites", "hashtags", "mentions"]
             assert first_row == row1
+
             csvfile.close()
 
     def test_word_separator(self):
@@ -29,3 +30,4 @@ class TestFileCSV():
         string = '#SolidariedadeInternacional #DemocratizeJá #LulapeloBrasil #DemarcaçãoJá #OcupaCuritiba '
         hashtags = CsvBuilder.word_separator(vector, hashtag=True)
         assert string == hashtags
+

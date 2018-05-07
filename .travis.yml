@@ -10,5 +10,6 @@ script:
   # - flake8
   - python -m pytest
 
+
 notifications:
   webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
