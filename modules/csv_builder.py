@@ -26,7 +26,7 @@ class CsvBuilder:
             if hashtag:
                 word = '#' + word + ' '
             else:
-                word = word + ' ' 
+                word = word + ' '
             row = row + word
-    
+
         return row

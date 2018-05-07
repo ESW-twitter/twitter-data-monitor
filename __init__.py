@@ -3,7 +3,7 @@ import os
 import json
 import datetime
 
-from flask import Flask
+from flask import Flask, make_response, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from modules.twitter_user import TwitterUser
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -41,7 +41,19 @@ def generate_csv_report():
 
 @app.route('/')
 def hello_world():
-   return  'Hello World'
+    reports = Report.query.all()
+    return render_template('main.html', reports=reports)
+
+@app.route('/download_csv/<rid>')
+def download_csv(rid):
+    report = Report.query.filter_by(id= rid).first()
+    csv = report.csv_content.decode()
+    response = make_response(csv)
+    cd = 'attachment; filename={}.csv'.format(report.date)
+    response.headers['Content-Disposition'] = cd
+    response.mimetype='text/csv'
+
+    return response
 
 if __name__ == '__main__':
     app.run()
