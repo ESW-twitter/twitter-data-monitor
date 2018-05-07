@@ -15,3 +15,5 @@ Flask-SQLAlchemy==2.3.2
 APScheduler==3.0.0
 redis==2.10.5
 rq==0.7.0
+pytest
+

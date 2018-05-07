@@ -8,7 +8,8 @@ install:
 
 script:
   # - flake8
-  - python -m unittest discover tests
+  - python -m pytest
+
 
 notifications:
   webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
