@@ -37,7 +37,7 @@ class TwitterAPI(tweepy.API):
     @staticmethod
     def extract_hashtags(tweet_list):
         '''
-        returns a list of hashtags contained in the tweet_list ordered by greater occurrence
+        returns a list of hashtags and occurrence contained in the tweet_list ordered by greater occurrence
         '''
         hashtags = []
         lower = []
@@ -48,19 +48,17 @@ class TwitterAPI(tweepy.API):
 
         mapped = [[x,lower.count(x)] for x in set(lower)]
         mapped.sort(key=lambda tuple: tuple[1], reverse=True)
-        final = [x[0] for x in mapped]
 
-        for hashtag in hashtags:
-            if hashtag.lower() in final:
-                final[final.index(hashtag.lower())] = hashtag
+        for item in mapped:
+            item[0] = hashtags[lower.index(item[0])] 
 
-        return final
+        return mapped
 
 
     @staticmethod
     def extract_mentions(tweet_list):
         '''
-        returns a list of mentions contained in the tweet_list ordered by greater occurrence
+        returns a list of mentions and occurrence contained in the tweet_list ordered by greater occurrence
         '''
         mentions = []
         for tweet in tweet_list:
@@ -70,7 +68,7 @@ class TwitterAPI(tweepy.API):
         mapped = [[x,mentions.count(x)] for x in set(mentions)]
         mapped.sort(key=lambda tuple: tuple[1], reverse=True)
 
-        return [x[0] for x in mapped]
+        return mapped
 
     @staticmethod
     def extract_retweets(tweet_list):

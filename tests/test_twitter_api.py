@@ -19,17 +19,17 @@ class TestTwitterAPI():
         warnings.filterwarnings("ignore", category=ResourceWarning)
         tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
         hashtags = TwitterAPI.extract_hashtags(tweets)
-        assert 'MaioMesDaCiencia' in hashtags
-        assert 'ResolviEsperar' in hashtags
-        assert 'Codaí' in hashtags
+        assert ['MaioMesDaCiencia', 1] in hashtags
+        assert ['ResolviEsperar', 1] in hashtags
+        assert ['Codaí', 1] in hashtags
 
     def test_mentions(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
         tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
         mentions = TwitterAPI.extract_mentions(tweets)
-        assert 'davirsimoes' in mentions
-        assert 'sonolencio' in mentions
-        assert 'Pirulla25' in mentions
+        assert ['davirsimoes', 22] in mentions
+        assert ['sonolencio', 15] in mentions
+        assert ['Pirulla25', 9] in mentions
 
     def test_retweets(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
