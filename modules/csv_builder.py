@@ -16,17 +16,17 @@ class CsvBuilder:
         with open(os.path.join(os.path.dirname(__file__),'../results/'+name+".csv"), 'a') as csvfile:
             writer_t = csv.writer(csvfile, delimiter=';')
             writer_t.writerow([user.name, user.followers_count,
-            user.tweets_count, user.following_count, user.likes_count, user.retweets_count, user.favorites_count, CsvBuilder.word_separator(user.hashtags, hashtag=True),CsvBuilder.word_separator(user.mentions) ])
+            user.tweets_count, user.following_count, user.likes_count, user.retweets_count, user.favorites_count, CsvBuilder.list_to_string(user.hashtags, hashtag=True),CsvBuilder.list_to_string(user.mentions) ])
             csvfile.close()
 
     @staticmethod
-    def word_separator(word_list, hashtag=False):
+    def list_to_string(word_occurrence_list, hashtag=False):
         row = ''
-        for word in word_list:
+        for word in word_occurrence_list:
             if hashtag:
-                word = '#' + word + ' '
+                word = '#' + str(word[0]) + ',' + str(word[1]) + ' ' 
             else:
-                word = word + ' '
+                word = str(word[0]) + ',' + str(word[1]) + ' '
             row = row + word
 
         return row
