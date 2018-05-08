@@ -1,1 +1,6 @@
-{}
+{
+  "tests/test_csv_builder.py::TestFileCSV": true,
+  "tests/test_twitter_api.py::TestTwitterAPI": true,
+  "tests/test_twitter_api.py::TestTwitterAPI::()::test_time_range": true,
+  "tests/test_twitter_user.py::TestTwitterUser::()::test_name_retrieval": true
+}
