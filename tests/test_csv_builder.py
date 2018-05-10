@@ -25,9 +25,10 @@ class TestFileCSV():
 
             csvfile.close()
 
-    def test_word_separator(self):
+    def test_list_to_string(self):
         vector = ['SolidariedadeInternacional', 'DemocratizeJá', 'LulapeloBrasil','DemarcaçãoJá','OcupaCuritiba']
-        string = '#SolidariedadeInternacional #DemocratizeJá #LulapeloBrasil #DemarcaçãoJá #OcupaCuritiba '
-        hashtags = CsvBuilder.word_separator(vector, hashtag=True)
+        vector = [[x,1] for x in vector]
+        string = '#SolidariedadeInternacional,1 #DemocratizeJá,1 #LulapeloBrasil,1 #DemarcaçãoJá,1 #OcupaCuritiba,1 '
+        hashtags = CsvBuilder.list_to_string(vector, hashtag=True)
         assert string == hashtags
 

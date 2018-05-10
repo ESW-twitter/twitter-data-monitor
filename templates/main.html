@@ -1,5 +1,12 @@
 <!doctype html>
 {% for report in reports %}
-  <a href="/download_csv/{{report.id}}" download>Baixar CSV ({{report.date}})</a>
-  <br>
+<p><a href="/download_csv/{{report.id}}" download>{{report.date}}.csv </a> </p>
+  
 {% endfor %}
+
+
+{% if not capturing%}
+    <a href="/performcapture">Realizar Captura</a>
+{% else %}
+	<h4> A captura pode levar alguns minutos, aguarde e atualize a página... <h4>
+{% endif %}
