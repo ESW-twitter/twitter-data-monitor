@@ -70,7 +70,7 @@ class generate_csv_report:
 
 
 
-        name = str(datetime.utcnow())#+"-from-"+str(year)+"-"+str(month)+"-"+str(day)+" "+str(hour)+":"+str(minute)        
+        name = str(datetime.utcnow()).split(".")[0]#+"-from-"+str(year)+"-"+str(month)+"-"+str(day)+" "+str(hour)+":"+str(minute)        
         f = Report(name, csv_content.encode())
         db.session.add(f)
         db.session.commit()
