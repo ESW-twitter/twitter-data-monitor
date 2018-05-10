@@ -12,6 +12,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
+os.environ["TwITTER_CAPTURING"] = "False"
 
 class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,7 +34,7 @@ class generate_csv_report:
         thread.daemon = True                       # Daemonize thread
         thread.start()                   
     def run(self):
-        
+        os.environ["TwITTER_CAPTURING"] = "True"
         csv_content = "nome;seguidores;tweets;seguindo;curtidas;retweets;favorites;hashtags;mentions\n"
         file = open("helpers/politicians.json")
         actors = json.load(file)
@@ -73,7 +74,7 @@ class generate_csv_report:
         f = Report(name, csv_content.encode())
         db.session.add(f)
         db.session.commit()
-
+        os.environ["TwITTER_CAPTURING"] = "False"
         
 @app.route('/')
 def hello_world():
@@ -85,7 +86,10 @@ def hello_world():
 
 @app.route('/performcapture')
 def perform():
-    capture = generate_csv_report()
+    if os.environ.get("TwITTER_CAPTURING") == "False":
+        capture = generate_csv_report()
+    else:
+        print("CAPTURA JA ESTA SENDO FEITA")
     return redirect("/")
 
 
