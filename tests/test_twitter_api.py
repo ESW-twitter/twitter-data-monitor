@@ -17,7 +17,7 @@ class TestTwitterAPI():
 
     def test_hashtags(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
-        tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
+        tweets = pickle.load(open('tweetlist.p', 'rb'))
         hashtags = TwitterAPI.extract_hashtags(tweets)
         assert ['MaioMesDaCiencia', 1] in hashtags
         assert ['ResolviEsperar', 1] in hashtags
@@ -25,7 +25,7 @@ class TestTwitterAPI():
 
     def test_mentions(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
-        tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
+        tweets = pickle.load(open('tweetlist.p', 'rb'))
         mentions = TwitterAPI.extract_mentions(tweets)
         assert ['davirsimoes', 22] in mentions
         assert ['sonolencio', 15] in mentions
@@ -33,11 +33,11 @@ class TestTwitterAPI():
 
     def test_retweets(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
-        tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
+        tweets = pickle.load(open('tweetlist.p', 'rb'))
         assert 592 == TwitterAPI.extract_retweets(tweets)
 
     def test_favorites(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
-        tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
+        tweets = pickle.load(open('tweetlist.p', 'rb'))
         assert 5718 == TwitterAPI.extract_favorites(tweets)
 
