@@ -24,9 +24,9 @@ class CsvBuilder:
         row = ''
         for word in word_occurrence_list:
             if hashtag:
-                word = '#' + str(word[0]) + ',' + str(word[1]) + ' ' 
+                word = '(' +'#' + str(word[0]) + ',' + str(word[1]) + ')' 
             else:
-                word = str(word[0]) + ',' + str(word[1]) + ' '
+                word = '(' + str(word[0]) + ',' + str(word[1]) + ')'
             row = row + word
 
         return row
