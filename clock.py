@@ -7,7 +7,8 @@ sched = BlockingScheduler()
 @sched.scheduled_job('interval', minutes= os.environ.get('CAPTURE_INTERVAL'))
 def generate_reports():
     print("Generating reports...")
-    csv_report()
+    capture = csv_report()
+    capture.start()
     print("Done ")
 
 sched.start()
