@@ -1,1 +1,6 @@
-{}
+{
+  "test_twitter_api.py::TestTwitterAPI::()::test_favorites": true,
+  "test_twitter_api.py::TestTwitterAPI::()::test_hashtags": true,
+  "test_twitter_api.py::TestTwitterAPI::()::test_mentions": true,
+  "test_twitter_api.py::TestTwitterAPI::()::test_retweets": true
+}
