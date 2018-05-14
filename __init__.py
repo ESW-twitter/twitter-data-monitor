@@ -4,111 +4,70 @@ import json
 from datetime import datetime, timedelta
 import threading
 from flask import Flask, make_response, request, render_template, redirect
-from flask_sqlalchemy import SQLAlchemy
 from modules.twitter_user import TwitterUser
 from modules.csv_builder import CsvBuilder
 from apscheduler.schedulers.blocking import BlockingScheduler
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-db = SQLAlchemy(app)
-
-
-def get_last_capture():
-    reports = Report.query.all()
-    reports.sort(key=lambda x: x.id, reverse=True)
-    last_capture = reports[0].date.split(" ")[0].split("-")
-    day = int(last_capture[2])
-    month = int(last_capture[1])
-    year = int(last_capture[0])
-    day_hour = reports[0].date.split(" ")[1].split(":")
-    hour = int(day_hour[0])
-    minute= int(day_hour[1])
-    return datetime(year, month, day, hour, minute, 0)
+from api import twitterAPI
+from csv_report import csv_report, app, db, Report
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 
 
-class Report(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(60))
-    csv_content = db.Column(db.LargeBinary)
-
-    def __init__(self, date, csv_content):
-        self.date = date
-        self.csv_content = csv_content
-
-    def __repr__(self):
-        return '<Report %r>' % self.id
+api = twitterAPI(app)
+capture = csv_report() 
+interval = 1440
+scheduler = BackgroundScheduler()
+job =scheduler.add_job(capture.start, 'interval', minutes=interval, id='capture')
+scheduler.start()
 
 
-class csv_report:
-  
-    def __init__(self):
-        self.thread = threading.Thread(target=self.run, args=())
-
-    def start(self):    
-        self.thread = threading.Thread(target=self.run, args=())
-        self.thread.daemon = True                       # Daemonize thread
-        self.thread.start()
-
-    def run(self):
-        csv_content = "nome;seguidores;tweets;seguindo;curtidas;retweets;favorites;hashtags;mentions\n"
-        file = open("helpers/politicians.json")
-        actors = json.load(file)
-
+@app.route('/mudarintervalo', methods=['POST'])
+def change_interval():
+    global interval
+    if request.method == 'POST':
         try:
-            last_capture = get_last_capture()
-            day = int(last_capture.day)
-            month = int(last_capture.month)
-            year = int(last_capture.year)
-            hour = int(last_capture.hour)
-            minute= int(last_capture.minute)
+            req_interval = int(request.form['intervalo'])
+            if req_interval >=5:
+                interval = req_interval
+                scheduler.reschedule_job('capture', trigger=IntervalTrigger(minutes=interval))
+                print("Intervalo modificado para "+str(interval))
+            else:
+                print("ERRO! Intervalo máximo é 5 minutos!")    
         except Exception as e:
-                yesterday = datetime.utcnow() - timedelta(days=1)
-                day = yesterday.day
-                month = yesterday.month
-                year = yesterday.year
-                hour = 0
-                minute = 0
-        
-        print("Collecting information from "+str(year)+"/"+str(month)+"/"+str(day)+" "+str(hour)+":"+str(minute)+" to date")
-          
-        for row in actors:
-            user = TwitterUser(row["twitter_handle"])
-            if user.existence == True:
-                print("Retrieving information of "+ str(user.username))
-                user.retrieve_info_from(day, month, year, hour, minute)
-                aux = "{};{};{};{};{};{};{};{};{};\n".format(user.name, user.followers_count,
-                user.tweets_count, user.following_count, user.likes_count, user.retweets_count, user.favorites_count, CsvBuilder.list_to_string(user.hashtags, hashtag=True),CsvBuilder.list_to_string(user.mentions))
-                csv_content = csv_content + aux
+            print("ERRO! Não foi possível mudar o intervalo.")
 
-
-        name = str(datetime.utcnow()).split(".")[0]#+"-from-"+str(year)+"-"+str(month)+"-"+str(day)+" "+str(hour)+":"+str(minute)        
-        f = Report(name, csv_content.encode())
-
-        if get_last_capture() < datetime.utcnow() - timedelta(minutes=1):
-            db.session.add(f)
-            db.session.commit()
-        else:
-            print("ERRO: Não salvo no BD! Só é permitida uma captura por minuto")
-  
-capture = csv_report()  
+    return redirect("/")
         
 @app.route('/')
 def hello_world():
+    
     reports = Report.query.all()
     for report in reports:
         report.date = report.date.split(".")[0]
-    return render_template('main.html', reports=reports)
+    return render_template('main.html', reports=reports, intervalo=int(job.trigger.interval_length/60))
 
 
-@app.route('/capturar')
-def perform():
-    if not capture.thread.is_alive():
-        capture.start()
-    else:
-        print("CAPTURA JA ESTA SENDO FEITA")
+# @app.route('/capturar')
+# def perform():
+#     if not capture.thread.is_alive():
+#         capture.start()
+#     else:
+#         print("CAPTURA JA ESTA SENDO FEITA")
+#     return redirect("/")
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    if request.method == 'POST':
+        try:
+            report_id = int(request.form['id'])
+            report = Report.query.filter_by(id= report_id).first()
+            db.session.delete(report)
+            db.session.commit()
+            print("Apagada captura de ", report.date)
+        except Exception as e:
+            print("Não foi possível apagar", e)
+        
     return redirect("/")
-
 
 @app.route('/download_csv/<rid>')
 def download_csv(rid):
