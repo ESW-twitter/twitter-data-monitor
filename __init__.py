@@ -15,22 +15,20 @@ from apscheduler.triggers.interval import IntervalTrigger
 
 api = twitterAPI(app)
 capture = csv_report() 
-interval = 1440
+
 scheduler = BackgroundScheduler()
-job =scheduler.add_job(capture.start, 'interval', minutes=interval, id='capture')
+job =scheduler.add_job(capture.start, 'interval', minutes=1440, id='capture')
 scheduler.start()
 
 
 @app.route('/mudarintervalo', methods=['POST'])
 def change_interval():
-    global interval
     if request.method == 'POST':
         try:
             req_interval = int(request.form['intervalo'])
             if req_interval >=5:
-                interval = req_interval
-                scheduler.reschedule_job('capture', trigger=IntervalTrigger(minutes=interval))
-                print("Intervalo modificado para "+str(interval))
+                scheduler.reschedule_job('capture', trigger=IntervalTrigger(minutes=req_interval))
+                print("Intervalo modificado para "+str(req_interval))
             else:
                 print("ERRO! Intervalo máximo é 5 minutos!")    
         except Exception as e:
@@ -44,6 +42,7 @@ def hello_world():
     reports = Report.query.all()
     for report in reports:
         report.date = report.date.split(".")[0]
+
     return render_template('main.html', reports=reports, intervalo=int(job.trigger.interval_length/60))
 
 
