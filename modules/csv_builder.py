@@ -1,32 +1,47 @@
 import csv
 import os
-# from twitter_user import TwitterUser
-
+import json
+from os.path import isfile, join
+            
 class CsvBuilder:
 
-    @staticmethod
-    def create_csv_basic(name):
-        with open(os.path.join(os.path.dirname(__file__), '../results/'+name+".csv"), 'w+') as csvfile:
-            writer_t = csv.writer(csvfile, delimiter=';')
-            writer_t.writerow(["nome", "seguidores", "tweets", "seguindo", "curtidas","retweets", "favorites", "hashtags", "mentions"])
-            csvfile.close()
+    def __init__(self, header_json):
+        line = ""
+        for attr in header_json:
+            line = line + attr['attribute'] + ";"
+        line = line[:-1]    
+        line = line+"\n"
+        
+        self.content = line
+        
+    def save(self, name, dir=None):
+        if dir != None:
+            onlydir = [f for f in os.listdir(os.getcwd()+"/results/") if not isfile(join(os.getcwd()+"/results/", f))]
+            if dir not in onlydir:
+                os.mkdir(os.getcwd()+"/results/"+dir)
+            name = dir+"/"+name
+        file = open("results/"+name+".csv", 'w')
+        file.write(self.content)
+        file.close
 
-    @staticmethod
-    def update_csv_new_autors(name, user):
-        with open(os.path.join(os.path.dirname(__file__),'../results/'+name+".csv"), 'a') as csvfile:
-            writer_t = csv.writer(csvfile, delimiter=';')
-            writer_t.writerow([user.name, user.followers_count,
-            user.tweets_count, user.following_count, user.likes_count, user.retweets_count, user.favorites_count, CsvBuilder.list_to_string(user.hashtags, hashtag=True),CsvBuilder.list_to_string(user.mentions) ])
-            csvfile.close()
 
-    @staticmethod
-    def list_to_string(word_occurrence_list, hashtag=False):
-        row = ''
-        for word in word_occurrence_list:
-            if hashtag:
-                word = '(' +'#' + str(word[0]) + ',' + str(word[1]) + ')' 
-            else:
-                word = '(' + str(word[0]) + ',' + str(word[1]) + ')'
-            row = row + word
+    def add_row(self, row):
+        self.content = self.content+row
+               
 
-        return row
+def list_to_string(list_of_words, hashtag=False):
+    string = ''
+    for word in list_of_words:
+        if hashtag:
+            string = string + '#' + str(word) + ', ' 
+        else:
+            string = string + str(word) + ', '
+    return string[:-2]
+
+def list_to_row(list_of_col):
+    line = ''
+    for entry in list_of_col:
+        line = line + str(entry) + ";"
+    line = line[:-1]    
+    line = line+"\n"
+    return line

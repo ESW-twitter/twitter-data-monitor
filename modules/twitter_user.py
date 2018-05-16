@@ -1,4 +1,5 @@
-from .twitter_api import TwitterAPI
+from modules.twitter_api import TwitterAPI, extract_favorites,extract_hashtags,extract_mentions,extract_retweets, extract_author
+from modules.csv_builder import list_to_string
 
 class TwitterUser:
 
@@ -15,20 +16,26 @@ class TwitterUser:
 				self.tweets_count = user.statuses_count
 				self.following_count = user.friends_count
 				self.likes_count = user.favourites_count
-				self.hashtags = []
-				self.mentions = []
-				self.retweets_count = 0
-				self.favorites_count = 0
 			except Exception as e:
 				self.existence = False
 		else:
 			self.existence = False
 
 
-	def retrieve_info_from(self, day, month, year, hour=0, minute=0):
+	def retrieve_tweets_from(self, day, month, year, hour=0, minute=0):
 		api = TwitterAPI()
-		tweets = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
-		self.hashtags = TwitterAPI.extract_hashtags(tweets)
-		self.mentions = TwitterAPI.extract_mentions(tweets)
-		self.retweets_count = TwitterAPI.extract_retweets(tweets)
-		self.favorites_count = TwitterAPI.extract_favorites(tweets)
+		tweets_raw = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
+		tweet_list = []
+
+		for tweet_raw in tweets_raw:
+			tweet = []
+			tweet.append(str(tweet_raw.created_at))	
+			tweet.append(tweet_raw.full_text.replace('\n',' '))
+			tweet.append(extract_author(tweet_raw))
+			tweet.append(extract_retweets(tweet_raw))
+			tweet.append(extract_favorites(tweet_raw))
+			tweet.append(list_to_string(extract_hashtags(tweet_raw), hashtag=True))
+			tweet.append(list_to_string(extract_mentions(tweet_raw)))
+			tweet_list.append(tweet)
+
+		return tweet_list	

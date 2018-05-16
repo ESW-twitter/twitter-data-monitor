@@ -1,0 +1,9 @@
+[  
+  {"attribute": "Data"}, 	
+  {"attribute":"Texto"},
+  {"attribute": "Autor(RT)"},
+  {"attribute":"Retweets"},
+  {"attribute":"Curtidas"},
+  {"attribute":"Hashtags"},
+  {"attribute":"Mentions"}
+]

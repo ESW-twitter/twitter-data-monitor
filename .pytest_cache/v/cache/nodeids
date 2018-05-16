@@ -1,6 +1,5 @@
 [
   "tests/test_csv_builder.py::TestFileCSV::()::test_file_exist",
-  "tests/test_csv_builder.py::TestFileCSV::()::test_create_csv",
   "tests/test_csv_builder.py::TestFileCSV::()::test_list_to_string",
   "tests/test_twitter_api.py::TestTwitterAPI::()::test_time_range",
   "tests/test_twitter_api.py::TestTwitterAPI::()::test_hashtags",

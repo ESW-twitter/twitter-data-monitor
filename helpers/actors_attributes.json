@@ -1,0 +1,8 @@
+[
+  {"attribute": "Nome"}, 	
+  {"attribute":"username"},
+  {"attribute":"Seguidores"},
+  {"attribute":"Seguindo"},
+  {"attribute":"Curtidas"},
+  {"attribute":"Tweets"}
+]
