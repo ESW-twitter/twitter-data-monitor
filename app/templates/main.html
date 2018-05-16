@@ -1,0 +1,10 @@
+<!doctype html>
+<h2 style="color: #2e6c80;">CSV's dos Atores:</h2>
+
+<p><a href="/atores/">Todos os atores</a> </p>
+
+<h2 style="color: #2e6c80;">CSV's de Tweets por Ator:</h2>
+
+{% for username in usernames %}
+<p><a href="/tweets/view/{{username}}">{{username}}</a> </p>
+{% endfor %}

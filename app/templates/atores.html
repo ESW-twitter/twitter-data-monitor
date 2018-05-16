@@ -1,17 +1,16 @@
 <!doctype html>
+<h1 style="color: #2e6c80;">CSV com todos atores </h1>
 <h2 style="color: #2e6c80;">Informacoes contidas nos CSV's:</h2>
 <p>Seguidores: Número de seguidores da conta</p>
 <p>Tweets: Número de tweets da conta</p>
 <p>Seguindo: Número de perfis que a conta segue</p>
 <p>Curtidas: Número de curtidas da conta</p>
-<p>Retweets: Numero de retweets dos tweets postados pela conta desde a última coleta</p>
-<p>Favorites: Numero de favorites (coraçãozinho) recebidos nos tweets postados pela conta desde a última coleta</p>
-<p>Hashtags: Hashtags contidas nos tweets postados pela conta desde a ultima coleta. Formato: (#hashtag, [num_vezes])</p>
-<p>Mentions: Menções (usernames) contidas nos tweets postados pela conta desde a ultima coleta. Formato: (username, [num_vezes])</p>
 <br>
 <h2 style="color: #2e6c80;">Intervalo de Captura:</h2>
-<p><font size="4">Atualmente capturando a cada <b>{{intervalo}}</b> minutos</font></p>
-<form name="htmlform" method="post" action="/mudarintervalo">
+<p><font size="4">Atualmente capturando a cada <b>{{intervalo}}</b> minutos. </font>
+	Próxima captura: <b> {{next}}</b>
+</p>
+<form name="htmlform" method="post" action="/atores/mudarintervalo">
 <table width="300px">
 </tr>
 <tr>
@@ -27,13 +26,14 @@
 </tr>
 </table>
 </form>
+<p>Obs: 1 dia = 1440 min, 1 semana = 10080 min<p>
 <br>
 
 
 <h2 style="color: #2e6c80;">Links para download:</h2>
 
 {% for report in reports %}
-<p><a href="/download_csv/{{report.id}}" download>{{report.date}}.csv </a> </p>
+<p><a href="/atores/download_csv/{{report.id}}" download>{{report.date}}.csv </a> </p>
   
 {% endfor %}
 

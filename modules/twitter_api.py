@@ -34,54 +34,82 @@ class TwitterAPI(tweepy.API):
 
         return tweet_list
 
-    @staticmethod
-    def extract_hashtags(tweet_list):
-        '''
-        returns a list of hashtags and occurrence contained in the tweet_list ordered by greater occurrence
-        '''
-        hashtags = []
-        lower = []
+def extract_hashtags(tweet_list):
+    '''
+    returns a list of hashtags and occurrence contained in the tweet_list ordered by greater occurrence
+    '''
+    hashtags = []
+    lower = []
+    if type(tweet_list)==list:
         for tweet in tweet_list:
             for hashtag in tweet.entities['hashtags']:
                 lower.append(hashtag['text'].lower())
                 hashtags.append(hashtag['text'])
 
-        mapped = [[x,lower.count(x)] for x in set(lower)]
-        mapped.sort(key=lambda tuple: tuple[1], reverse=True)
+    else:
+        tweet = tweet_list
+        for hashtag in tweet.entities['hashtags']:
+            lower.append(hashtag['text'].lower())
+            hashtags.append(hashtag['text'])                    
+                
+    mapped = [[x,lower.count(x)] for x in set(lower)]
+    mapped.sort(key=lambda tuple: tuple[1], reverse=True)
 
-        for item in mapped:
-            item[0] = hashtags[lower.index(item[0])] 
+    for item in mapped:
+        item[0] = hashtags[lower.index(item[0])] 
 
-        return mapped
+    final = [x[0] for x in mapped]
+
+    return final
 
 
-    @staticmethod
-    def extract_mentions(tweet_list):
-        '''
-        returns a list of mentions and occurrence contained in the tweet_list ordered by greater occurrence
-        '''
-        mentions = []
+def extract_mentions(tweet_list):
+    '''
+    returns a list of mentions and occurrence contained in the tweet_list ordered by greater occurrence
+    '''
+    mentions = []
+    if type(tweet_list)==list:
         for tweet in tweet_list:
             for mention in tweet.entities['user_mentions']:
                 mentions.append(mention['screen_name'])
+    else:
+        tweet = tweet_list
+        for mention in tweet.entities['user_mentions']:
+            mentions.append(mention['screen_name'])            
 
-        mapped = [[x,mentions.count(x)] for x in set(mentions)]
-        mapped.sort(key=lambda tuple: tuple[1], reverse=True)
+    mapped = [[x,mentions.count(x)] for x in set(mentions)]
+    mapped.sort(key=lambda tuple: tuple[1], reverse=True)
+    final = [x[0] for x in mapped]
+    return final
 
-        return mapped
-
-    @staticmethod
-    def extract_retweets(tweet_list):
-        retweets = 0
+def extract_retweets(tweet_list):
+    retweets = 0
+    if type(tweet_list)==list:
         for tweet in tweet_list:
             if not hasattr(tweet, 'retweeted_status'):
                 retweets += tweet.retweet_count
-        return retweets
+    else:
+        tweet = tweet_list
+        if not hasattr(tweet, 'retweeted_status'):
+            retweets += tweet.retweet_count
 
-    @staticmethod
-    def extract_favorites(tweet_list):
-        favorites = 0
+    return retweets
+
+def extract_author(tweet):
+    if hasattr(tweet, 'retweeted_status'):
+        return tweet.retweeted_status.author.screen_name
+    else:
+        return " "
+            
+def extract_favorites(tweet_list):
+    favorites = 0
+    if type(tweet_list)==list:
         for tweet in tweet_list:
             if not hasattr(tweet, 'retweeted_status'):
                 favorites += tweet.favorite_count
-        return favorites
+    else:
+        tweet = tweet_list
+        if not hasattr(tweet, 'retweeted_status'):
+            favorites += tweet.favorite_count
+                
+    return favorites
