@@ -1,24 +1,33 @@
 <!doctype html>
-<h1 style="color: #2e6c80;">CSV com todos atores </h1>
-<h2 style="color: #2e6c80;">Informacoes contidas nos CSV's:</h2>
-<p>Seguidores: Número de seguidores da conta</p>
-<p>Tweets: Número de tweets da conta</p>
-<p>Seguindo: Número de perfis que a conta segue</p>
-<p>Curtidas: Número de curtidas da conta</p>
-<br>
-<h2 style="color: #2e6c80;">Intervalo de Captura:</h2>
-<p><font size="4">Atualmente capturando a cada <b>{{intervalo}}</b> minutos. </font>
-	Próxima captura: <b> {{next}}</b>
+<meta charset="UTF-8">
+<ul><h1 style="color: #2e6c80;">CSV com todos atores </h1>
+<h2 style="color: #2e6c80;">Informações contidas nos CSV's:</h2>
+<ol>
+<li><p>Seguidores: Número de seguidores da conta</p></li>
+<li><p>Tweets: Número de tweets da conta</p></li>
+<li><p>Seguindo: Número de perfis que a conta segue</p></li>
+<li><p>Curtidas: Número de curtidas da conta</p></li>
+</ol>
+</ul>
+<ul><h2 style="color: #2e6c80;">Intervalo de Captura:</h2>
+<p><font size="4">Atualmente capturando a cada <b>{{intervalo}}</b> minutos. 
+    <br>
+    <p>Próxima captura:
+        <b> {{next}}</b>
+    </p>
+    </font>
 </p>
 <form name="htmlform" method="post" action="/atores/mudarintervalo">
-<table width="300px">
+<table width="420px">
 </tr>
 <tr>
  <td valign="top">
-  <label for="first_name">Novo Intervalo: </label>
+  <label for="first_name"><font size="4">Novo Intervalo:</font> </label>
  </td>
  <td valign="top">
+    <font size="4">
   <input  type="text" name="intervalo" maxlength="10" size="5"> minutos
+</font>
  </td>
  <td colspan="2" style="text-align:center">
   <input type="submit" value="Modificar">
@@ -27,8 +36,6 @@
 </table>
 </form>
 <p>Obs: 1 dia = 1440 min, 1 semana = 10080 min<p>
-<br>
-
 
 <h2 style="color: #2e6c80;">Links para download:</h2>
 
@@ -36,6 +43,7 @@
 <p><a href="/atores/download_csv/{{report.id}}" download>{{report.date}}.csv </a> </p>
   
 {% endfor %}
+</ul>
 
 <br><br>
 

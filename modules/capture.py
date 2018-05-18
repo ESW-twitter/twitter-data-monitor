@@ -5,7 +5,6 @@ import json
 def capture_actors():
 	actors = json.load(open("helpers/politicians.json"))
 	header_json = json.load(open("helpers/actors_attributes.json"))
-
 	csv = CsvBuilder(header_json)
 	print("Capturing Actors information")
 

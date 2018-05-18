@@ -1,3 +1,4 @@
 {
+  "tests/test_actor_site.py::test_empty_db": true,
   "tests/test_csv_builder.py::TestFileCSV::()::test_create_csv": true
 }
