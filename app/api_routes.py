@@ -2,7 +2,8 @@ from app import app
 import json
 from flask import jsonify
 from modules.twitter_user import TwitterUser
-
+from app.models import ActorReport, TweetReport
+from app import db
 
 @app.route('/api/actors')
 def api_get_actors():
@@ -20,12 +21,19 @@ def api_get_actors():
 	data['actors'] = politicians
 
 	return jsonify(data)
-# 
-# @app.route('/api/actors/datetimes')
-# def api_get_actors():
-# 	data = {}
 
+@app.route('/api/actors/datetimes')
+def api_get_actors_datetime():
+	data = {}
+	data['dates'] = []
+	length = 0
+	reports = ActorReport.query.all()
+	for report in reports:
+		data['dates'].append(report.date[0:10])
 
+	data['code'] = '200'
+	data['message'] = 'Success'
+	return jsonify(data)
 
 @app.route('/api/actor/<username>/', defaults={ 'date': None })
 @app.route('/api/actor/<username>/<date>')
