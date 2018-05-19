@@ -45,8 +45,25 @@ def api_get_actor_account_date(username,date):
 			data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username.'}
 			return jsonify(data)
 		else:
-			data = {'code': '200', 'message':'Success', 'id': user.id, 'username': user.username, 'name': user.name, 'followers_count': user.followers_count, 'tweets_count': user.tweets_count, 'following_count': user.following_count, 'likes_count': user.likes_count }
+			data = {'code': '200', 'message':'Success', 'username': user.username, 'name': user.name, 'followers_count': user.followers_count, 'tweets_count': user.tweets_count, 'following_count': user.following_count, 'likes_count': user.likes_count }
 			return jsonify(data)
+	else:
+		# What to do if there's multiple records for the same date?
+		try:
+			report = ActorReport.query.filter_by(date= date)[0].csv_content.decode()
+		except:
+			data = {'code': '500', 'message': 'Internal Server Error', 'details': 'Could not find CSV for specific date.'}
+			return jsonify(data)
+		else:
+			lines = report.split('\n')
+			for line in lines:
+				aux = line.split(';')
+				if username == aux[1]:
+					data = {'code': '200', 'message':'Success', 'username': aux[1], 'name': aux[0], 'followers_count': aux[2], 'tweets_count': aux[5], 'following_count': aux[3], 'likes_count': aux[4] }
+					return jsonify(data)
+			data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username.'}
+			return jsonify(data)
+
 
 
 #
