@@ -51,8 +51,8 @@ def api_get_actor_account_date(username,date):
 		# What to do if there's multiple records for the same date?
 		try:
 			reports = ActorReport.query.all()
-			for report in reports:
-				if report.date[0:10] == date:
+			for auxreport in reports:
+				if auxreport.date[0:10] == date:
 					report = report.csv_content.decode()
 		except:
 			data = {'code': '500', 'message': 'Internal Server Error', 'details': 'Could not find CSV for specific date.'}
