@@ -50,7 +50,10 @@ def api_get_actor_account_date(username,date):
 	else:
 		# What to do if there's multiple records for the same date?
 		try:
-			report = ActorReport.query.filter_by(date= date)[0].csv_content.decode()
+			reports = ActorReport.query.all()
+			for report in reports:
+				if report.date[0:10] == date:
+					report = report.csv_content.decode()
 		except:
 			data = {'code': '500', 'message': 'Internal Server Error', 'details': 'Could not find CSV for specific date.'}
 			return jsonify(data)
@@ -63,14 +66,3 @@ def api_get_actor_account_date(username,date):
 					return jsonify(data)
 			data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username.'}
 			return jsonify(data)
-
-
-
-#
-# @app.route('/api/tweets/<username>/', defaults={'count': 20, 'since': None, 'until': None})
-# @app.route('/api/actor/<username>/<count>/<since>/<until>')
-# def api_get_actor_tweets_count_since_until(username, count, since, until):
-# 	pass
-#
-
-	## basic information, tweets, array de datas de basic information, array de datas de tweets
