@@ -75,6 +75,7 @@ def api_get_actor_account_date(username,date):
 @app.route('/api/actor/<username>/<date>/tweets')
 def api_get_actor_account_date_tweets(username,date):
 	report = None
+	data = {}
 	tweets_report = TweetReport.query.filter_by(username= username)
 	for tweetreport in tweets_report:
 		if tweetreport.date[0:10] == date:
