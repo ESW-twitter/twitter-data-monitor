@@ -89,8 +89,11 @@ def api_get_actor_account_date_tweets(username,date):
 		content = content.split('\n')
 		data['tweets'] = []
 		for line in content:
-			aux_line = line.split(';')
-			data['tweets'].append({'date': aux_line[0], 'text': aux_line[1], 'rt_author': aux_line[2], 'retweets': aux_line[3], 'likes': aux_line[4], 'hashtags': aux_line[5], 'mention':aux_line[6] })
+			try:
+				aux_line = line.split(';')
+				data['tweets'].append({'date': aux_line[0], 'text': aux_line[1], 'rt_author': aux_line[2], 'retweets': aux_line[3], 'likes': aux_line[4], 'hashtags': aux_line[5], 'mention':aux_line[6] })
+			else:
+				pass
 
 		data['code'] = '200'
 		data['message'] = 'Success'
