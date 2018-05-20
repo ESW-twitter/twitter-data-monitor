@@ -40,7 +40,7 @@ def api_get_actors_datetime():
 def api_get_actor_account_date(username,date):
 	## If not specified date, API will return current values from Tweepy API.
 	tweets_collection_dates = []
-	tweetreports = TweetReport.query.filter_by(username= username):
+	tweetreports = TweetReport.query.filter_by(username= username)
 	for tweetreport in tweetreports:
 		tweets_collection_dates.append(tweetreport.date[0:10])
 
@@ -74,3 +74,24 @@ def api_get_actor_account_date(username,date):
 
 @app.route('/api/actor/<username>/<date>/tweets')
 def api_get_actor_account_date_tweets(username,date):
+
+	report = None
+	tweets_report = TweetReport.query.filter_by(username)
+	for tweetreport in tweets_report:
+		if tweetreport.date[0:10] == date:
+			report = tweetreport
+
+	if report == None:
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username or date.'}
+		return jsonify(data)
+	else:
+		content = report.csv_content.decode()
+		content = content.split('\n')
+		data['tweets'] = []
+		for line in content:
+			aux_line = line.split(';')
+			data['tweets'].append({'date': aux_line[0], 'text': aux_line[1], 'rt_author': aux_line[2], 'retweets': aux_line[3], 'likes': aux_line[4], 'hashtags': aux_line[5], 'mention':aux_line[6] })
+
+		data['code'] = '200'
+		data['message'] = 'Success'
+		return jsonify(data)
