@@ -76,7 +76,7 @@ def api_get_actor_account_date(username,date):
 def api_get_actor_account_date_tweets(username,date):
 
 	report = None
-	tweets_report = TweetReport.query.filter_by(username)
+	tweets_report = TweetReport.query.filter_by(username=username)
 	for tweetreport in tweets_report:
 		if tweetreport.date[0:10] == date:
 			report = tweetreport
