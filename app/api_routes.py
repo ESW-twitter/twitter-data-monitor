@@ -22,7 +22,7 @@ def api_get_actors():
 
 	return jsonify(data)
 
-@app.route('/api/actors/datetimes')
+@app.route('/api/actors/datetime')
 def api_get_actors_datetime():
 	data = {}
 	data['dates'] = []
@@ -39,13 +39,17 @@ def api_get_actors_datetime():
 @app.route('/api/actor/<username>/<date>')
 def api_get_actor_account_date(username,date):
 	## If not specified date, API will return current values from Tweepy API.
+	tweets_collection_dates = []
+	for tweetreport in TweetReport.query.filter_by(username= username):
+		tweets_collection_dates.append(tweetreport.date[0:10])
+
 	if date == None :
 		user = TwitterUser(username)
 		if user.existence == False :
 			data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username.'}
 			return jsonify(data)
 		else:
-			data = {'code': '200', 'message':'Success', 'username': user.username, 'name': user.name, 'followers_count': user.followers_count, 'tweets_count': user.tweets_count, 'following_count': user.following_count, 'likes_count': user.likes_count }
+			data = {'code': '200', 'message':'Success', 'username': user.username, 'name': user.name, 'followers_count': user.followers_count, 'tweets_count': user.tweets_count, 'following_count': user.following_count, 'likes_count': user.likes_count, 'tweets_collection_dates': tweets_collection_dates}
 			return jsonify(data)
 	else:
 		# What to do if there's multiple records for the same date?
@@ -62,7 +66,7 @@ def api_get_actor_account_date(username,date):
 			for line in lines:
 				aux = line.split(';')
 				if username == aux[1]:
-					data = {'code': '200', 'message':'Success', 'username': aux[1], 'name': aux[0], 'followers_count': aux[2], 'tweets_count': aux[5], 'following_count': aux[3], 'likes_count': aux[4] }
+					data = {'code': '200', 'message':'Success', 'username': aux[1], 'name': aux[0], 'followers_count': aux[2], 'tweets_count': aux[5], 'following_count': aux[3], 'likes_count': aux[4], 'tweets_collection_dates': tweets_collection_dates }
 					return jsonify(data)
 			data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username.'}
 			return jsonify(data)
