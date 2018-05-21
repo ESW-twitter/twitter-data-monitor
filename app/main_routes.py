@@ -3,11 +3,8 @@ from flask import Flask, make_response, request, render_template, redirect
 from apscheduler.triggers.interval import IntervalTrigger
 import json
 
-
-
-
 @app.route('/')
-def main_page(): 
+def main_page():
 	usernames = []
 	actors = json.load(open("helpers/politicians.json"))
 	for row in actors:
@@ -15,5 +12,5 @@ def main_page():
 		if len(username) > 2:
 			usernames.append(username)
 	usernames.sort()
-	
+
 	return render_template('main.html', usernames=usernames)
