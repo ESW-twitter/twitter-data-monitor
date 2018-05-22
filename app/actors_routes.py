@@ -1,7 +1,7 @@
 #coding: utf-8
 from app import app, db
 from app.models import ActorReport
-from app.scheduler import scheduler
+from app.scheduler import scheduler, reschedule_actors_job, retrieve_interval, retrieve_next_runtime
 from flask import Flask, make_response, request, render_template, redirect
 from apscheduler.triggers.interval import IntervalTrigger
 
@@ -10,32 +10,19 @@ from apscheduler.triggers.interval import IntervalTrigger
 @app.route('/atores/mudarintervalo', methods=['POST'])
 def change_interval():
     if request.method == 'POST':
-        try:
-            req_interval = int(request.form['intervalo'])
-            if req_interval >=1:
-                scheduler.reschedule_job('actors', trigger=IntervalTrigger(minutes=req_interval))
-                print("Intervalo de captura geral modificado para "+str(req_interval))
-            else:
-                print("ERRO! Intervalo máximo é 5 minutos!")    
-        except Exception as e:
-            print("ERRO! Não foi possível mudar o intervalo.")
+        minutes = int(request.form['intervalo'])
+        reschedule_actors_job(minutes)    
 
     return redirect("/atores/")
 
 
 @app.route('/atores/')
 def actors():
-    try:
-        job = scheduler.get_job('actors')
-        interval = int(job.trigger.interval_length/60)
-        next_run = str(job.next_run_time).split(".")[0] 
-    except Exception as e:
-        interval = "unknown"
-        next_run = "unknown"
+    
+    interval = retrieve_interval('actors')
+    next_run = retrieve_next_runtime('actors') 
     
     reports = ActorReport.query.all()
-    for report in reports:
-        report.date = report.date.split(".")[0]
 
     return render_template('atores.html', reports=reports, intervalo=interval, next=next_run)
 
