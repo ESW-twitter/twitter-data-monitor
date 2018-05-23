@@ -1,6 +1,7 @@
 <!doctype html>
 <meta charset="UTF-8">
-<ul><h1 style="color: #2e6c80;">Tweets de: {{username}} </h1> 
+<form action="/"><input type="Submit" value="Voltar"></form>
+<ul><h1 style="color: #2e6c80;">Tweets de: {{actor.name}} </h1> 
 <h2 style="color: #2e6c80;">Informações contidas nos CSV's:</h2>
 <ol>
 <li><p>Data: data em que foi criado o tweet</li></p>
@@ -18,14 +19,14 @@
     <br><p>Próxima captura: <b> {{next}}</b></p>
     </font>
 </p>
-<form name="htmlform" method="post" action="/tweets/mudarintervalo/{{username}}">
+<form name="htmlform" method="post" action="/tweets/mudarintervalo/{{actor.username}}">
 </tr>
 <tr>
  <td valign="left">
   <label for="first_name"><font size="3"> Novo Intervalo: </font></label>
  </td>
  <td valign="left">
-  <input  type="text" name="intervalo" maxlength="10" size="5"> minutos
+  <input  type="number" name="intervalo" maxlength="10" size="5"> minutos
  </td>
  
  <td colspan="2" style="text-align:center">

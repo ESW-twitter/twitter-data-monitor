@@ -30,9 +30,18 @@ class RelationReport(db.Model):
     date = db.Column(db.String(60))
     csv_content = db.Column(db.LargeBinary(length=(2**32)-1))
 
-    def __init__(self, date, username, csv_content):
+    def __init__(self, date, csv_content):
         self.date = date
         self.csv_content = csv_content
+    def __repr__(self):
+        return '<RelationReport %r>' % self.id                
+
+class Actor(db.Model): 
+    username = db.Column(db.String(30), primary_key=True)
+    name = db.Column(db.String(30))
+
+    def __init__(self, username, name):
+        self.name = name
         self.username = username
     def __repr__(self):
-        return '<TweetReport %r>' % self.id                
+        return '<Actor %r>' % self.username          
