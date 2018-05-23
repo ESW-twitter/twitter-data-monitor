@@ -7,7 +7,30 @@
 
 <ol></li><h2 style="color: #2e6c80;">CSV's de Tweets por Ator:</h2>
 
-{% for username in usernames %}
-<li><p><a href="/tweets/view/{{username}}">{{username}}</a> </p> </li>
+{% if can_resc %}
+<ul><h3>Alterar intervalo para todos atores (pode levar alguns minutos)</h2>
+<form name="htmlform" method="post" action="/mudarintervalotodostweets">
+</tr>
+<tr>
+ <td valign="top">
+  <label for="intervalo"><font size="4">Novo Intervalo:</font> </label>
+ </td>
+ <td valign="top">
+    <font size="4">
+  <input  type="text" name="intervalo" maxlength="10" size="5"> minutos
+</font>
+ </td>
+ <td colspan="2" style="text-align:center">
+  <input type="submit" value="Modificar">
+ </td>
+</tr>
+</table>
+</form>
+<p>Obs: 1 dia = 1440 min, 1 semana = 10080 min.<p>
+{% endif %}
+
+
+{% for actor in actors %}
+<li><p><a href="/tweets/view/{{actor.username}}">{{actor.name}}</a> </p> </li>
 {% endfor %}
 </ol>
