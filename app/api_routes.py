@@ -60,11 +60,14 @@ def api_get_actor_account_date(username,date):
 	tweets_collection_dates = list(set(tweets_collection_dates))
 		
 	if date == None :
-		user = TwitterUser(username)
+		user = TwitterUser(actor.id)
 		if user.existence == False :
 			data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username.'}
 			return jsonify(data)
 		else:
+			if user.username != actor.username:
+				Actor.query.filter_by(id=actor.id).update(dict(username=user.username))
+				db.session.commit()
 			data = {'code': '200', 'message':'Success', 'username': user.username, 'name': user.name, 'followers_count': user.followers_count, 'tweets_count': user.tweets_count, 'following_count': user.following_count, 'likes_count': user.likes_count, 'tweets_collection_dates': tweets_collection_dates, 'actor_collection_dates': all_actors_collection_dates}
 			return jsonify(data)
 	else:

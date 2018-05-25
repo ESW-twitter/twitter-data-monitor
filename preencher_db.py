@@ -70,24 +70,38 @@ class Actor(db.Model):
 
 
 
-db.drop_all()
+class Teste(db.Model): 
+    id = db.Column(db.String(32), primary_key=True)
+    username = db.Column(db.String(60))
+    name = db.Column(db.String(60))
+
+    def __init__(self, id,  username, name):
+        self.id = id
+        self.name = name
+        self.username = username
+    
+    def __repr__(self):
+        return '<Actor %r>' % self.username 
+
+
+
 db.create_all()
 
 
 
 # Adicionando atores do politicians.json
-print("Adding Actors")
-actors = json.load(open("helpers/politicians.json"))
-for row in actors:
-	username = row["twitter_handle"]
-	user = TwitterUser(username)
-	if user.existence == True:
-		name = user.name
-		name = unidecode(name)
-		f = Actor(id = int(user.id), username=username, name= name)
-		db.session.add(f)
-		db.session.commit()
-		print(name, "added")
+# print("Adding Actors")
+# actors = json.load(open("helpers/politicians.json"))
+# for row in actors:
+# 	username = row["twitter_handle"]
+# 	user = TwitterUser(username)
+# 	if user.existence == True:
+# 		name = user.name
+# 		name = unidecode(name)
+# 		f = Actor(id = int(user.id), username=username, name= name)
+# 		db.session.add(f)
+# 		db.session.commit()
+# 		print(name, "added")
 
 
 

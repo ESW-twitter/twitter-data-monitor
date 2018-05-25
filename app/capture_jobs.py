@@ -21,6 +21,7 @@ class actors_job:
         self.thread.start()
 
     def run(self):
+        check_actors_usernames()
         csv = capture_actors()
         date = str(datetime.utcnow()).split(" ")[0]        
         hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]        
@@ -41,6 +42,12 @@ class tweets_job:
         self.thread.start()
 
     def run(self):
+        actors = Actor.query.all()
+        for actor in actors:
+            user = TwitterUser(actor.id)
+            if user.username != actor.username:
+                Actor.query.filter_by(id=actor.id).update(dict(username=user.username))
+                db.session.commit()
 
         csv = capture_tweets(self.id)
         date = str(datetime.utcnow()).split(" ")[0]        
@@ -72,11 +79,20 @@ class reschedule_tweet_jobs:
             job = self.scheduler.get_job(id)
             job.reschedule(trigger=IntervalTrigger(minutes=self.minutes))
 
+def check_actors_usernames():
+    actors = Actor.query.all()
+    for actor in actors:
+        user = TwitterUser(actor.id)
+        if user.existence == True:  
+            if user.username != actor.username:
+                Actor.query.filter_by(id=actor.id).update(dict(username=user.username))
+                db.session.commit()
+
 
 def capture_tweets_from_all():
     actors = Actor.query.all()
     for actor in actors:        
-        username = actor.username
-        job = tweets_job(username)
+        id = actor.id
+        job = tweets_job(id)
         job.start()
         time.sleep(5)    
