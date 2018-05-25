@@ -45,7 +45,7 @@ def download_csv(rid):
     report = ActorReport.query.filter_by(id= rid).first()
     csv = report.csv_content.decode()
     response = make_response(csv)
-    cd = 'attachment; filename={}.csv'.format(report.date.split(".")[0])
+    cd = 'attachment; filename={}.csv'.format(report.date+"_"+report.hour)
     response.headers['Content-Disposition'] = cd
     response.mimetype='text/csv'
 

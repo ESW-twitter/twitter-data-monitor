@@ -40,7 +40,7 @@
 <h2 style="color: #2e6c80;">Links para download:</h2>
 
 {% for report in reports %}
-<p><a href="/atores/download_csv/{{report.id}}" download>{{report.date}}.csv </a> </p>
+<p><a href="/atores/download_csv/{{report.id}}" download>{{report.date+"_"+report.hour}}.csv </a> </p>
   
 {% endfor %}
 </ul>

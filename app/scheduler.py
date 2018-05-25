@@ -13,9 +13,8 @@ scheduler.add_job(actors_job().start, 'interval', days=7, id='actors')
 
 actors = Actor.query.all()
 for actor in actors:
-	username = actor.username
-	if len(username) > 2:
-		scheduler.add_job(tweets_job(username=username).start, 'interval', days=7, id=username)
+	id = actor.id
+	scheduler.add_job(tweets_job(id=id).start, 'interval', days=7, id=id)
 		
 scheduler.start()
 

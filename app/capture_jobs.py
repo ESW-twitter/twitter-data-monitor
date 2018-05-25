@@ -12,9 +12,8 @@ import json
 import time
 
 class actors_job:
-    def __init__(self, in_local_File=False):
+    def __init__(self):
         self.thread = threading.Thread(target=self.run, args=())
-        self.inFile=in_local_File
 
     def start(self):    
         self.thread = threading.Thread(target=self.run, args=())
@@ -23,20 +22,18 @@ class actors_job:
 
     def run(self):
         csv = capture_actors()
-        date = str(datetime.utcnow()).split(".")[0]        
+        date = str(datetime.utcnow()).split(" ")[0]        
+        hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]        
         
-        if not self.inFile:
-            f = ActorReport(date, csv.content.encode())
-            db.session.add(f)
-            db.session.commit()
-        else:
-            csv.save(name=date)    
+        f = ActorReport(date= date, hour=hour, csv_content= csv.content.encode())
+        db.session.add(f)
+        db.session.commit()
+          
 
 class tweets_job:
-    def __init__(self, username, in_local_File=False):
+    def __init__(self, id):
         self.thread = threading.Thread(target=self.run, args=())
-        self.inFile=in_local_File
-        self.username = username
+        self.id = id
 
     def start(self):    
         self.thread = threading.Thread(target=self.run, args=())
@@ -45,18 +42,17 @@ class tweets_job:
 
     def run(self):
 
-        csv = capture_tweets(self.username)
-        date = str(datetime.utcnow()).split(".")[0]        
-        
+        csv = capture_tweets(self.id)
+        date = str(datetime.utcnow()).split(" ")[0]        
+        hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]
+
         if csv == "none":
             return
 
-        if not self.inFile:
-            f = TweetReport(date, self.username, csv.content.encode())
-            db.session.add(f)
-            db.session.commit()
-        else:
-            csv.save(name=date, dir=self.username)
+        f = TweetReport(date = date, hour= hour, actor_id = self.id, csv_content=csv.content.encode())
+        db.session.add(f)
+        db.session.commit()
+    
 
 class reschedule_tweet_jobs:
     def __init__(self, scheduler, minutes=10080):
@@ -71,11 +67,10 @@ class reschedule_tweet_jobs:
     def run(self):
         actors = Actor.query.all()
         for actor in actors:
-            time.sleep(20) #20 segundos entre um e outro
-            username = actor.username
-            if len(username) > 2:
-                job = self.scheduler.get_job(username)
-                job.reschedule(trigger=IntervalTrigger(self.minutes))
+            time.sleep(20)
+            id = actor.id
+            job = self.scheduler.get_job(id)
+            job.reschedule(trigger=IntervalTrigger(minutes=self.minutes))
 
 
 def capture_tweets_from_all():

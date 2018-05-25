@@ -8,7 +8,7 @@ class TestTwitterUser():
     def test_name_retrieval(self):
         user = TwitterUser('siqueiralex')
         assert 'Alex Siqueira' == user.name
-        assert  52126452 == user.id
+        assert  '52126452' == user.id
 
     def test_account_existance(self):
         user = TwitterUser('')

@@ -10,9 +10,9 @@ def main_page():
 	actors = Actor.query.all()
 	names.sort(key=lambda x: x.name)
 	from app.scheduler import rescheduling
-	resch_all = not rescheduling.thread.isAlive()
+	can_resch_all = not rescheduling.thread.isAlive()
 
-	return render_template('main.html', actors=actors, can_resc = resch_all )
+	return render_template('main.html', actors=actors, can_resc = can_resch_all )
 
 
 @app.route('/mudarintervalotodostweets', methods=['POST'])
