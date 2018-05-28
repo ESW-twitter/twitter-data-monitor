@@ -22,10 +22,13 @@ class TwitterUser:
 			self.existence = False
 
 
-	def retrieve_tweets_from(self, day, month, year, hour=0, minute=0):
+	def retrieve_tweets_from(self, day, month, year, hour=0, minute=0, raw=False):
 		api = TwitterAPI()
 		tweets_raw = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
 		tweet_list = []
+
+		if raw:
+			return tweets_raw
 
 		for tweet_raw in tweets_raw:
 			tweet = []

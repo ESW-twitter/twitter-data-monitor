@@ -1,9 +1,9 @@
 #coding: utf-8
 from app import app, db
 from app.models import ActorReport
-from app.scheduler import scheduler, reschedule_actors_job, retrieve_interval, retrieve_next_runtime
+from app.scheduler import reschedule_job, retrieve_interval, retrieve_next_runtime
 from flask import Flask, make_response, request, render_template, redirect
-from apscheduler.triggers.interval import IntervalTrigger
+
 
 
 
@@ -11,7 +11,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 def change_interval():
     if request.method == 'POST':
         minutes = int(request.form['intervalo'])
-        reschedule_actors_job(minutes)    
+        reschedule_job(id='actors', minutes=minutes)    
 
     return redirect("/atores/")
 

@@ -1,34 +1,53 @@
 <!doctype html>
 <meta charset="UTF-8">
-<ul><h2 style="color: #2e6c80;">CSV's dos Atores:</h2>
 
+
+<ul><h2 style="color: #2e6c80;">CSV's dos Atores:</h2>
 <li><p><a href="/atores/">Todos os atores</a> </p></li>
+</ul>
+
+<ul><h2 style="color: #2e6c80;">CSV's de Relações:</h2>
+<li><p><a href="/relacoes/">Relacoes</a> </p></li>
 </ul>
 
 <ol></li><h2 style="color: #2e6c80;">CSV's de Tweets por Ator:</h2>
 
-{% if can_resc %}
-<ul><h3>Alterar intervalo para todos atores (pode levar alguns minutos)</h2>
-<form name="htmlform" method="post" action="/mudarintervalotodostweets">
-</tr>
+<h3>Adicionar ou remover atores</h2>
+<form name="htmlform" method="post" action="/removeactor" id="delete">
 <tr>
  <td valign="top">
-  <label for="intervalo"><font size="4">Novo Intervalo:</font> </label>
+  <label for="remover"><font size="4">Ator:</font> </label>
  </td>
  <td valign="top">
     <font size="4">
-  <input  type="text" name="intervalo" maxlength="10" size="5"> minutos
+
+  <select name="actor" form="delete">    
+  {% for actor in actors %}
+    <option value="{{actor.id}}">{{actor.name}}</option>
+  {% endfor %}
+  </select>
+
+  <td colspan="2" style="text-align:center">
+   <input type="submit" value="Remover">
+  </td>
+  </font>
+ </td>
+</form>
+<form name="addactor" method="post" action="/addactor">
+ <td valign="top">
+  <label for="add"><font size="4">Username: @</font> </label>
+ </td>
+ <td valign="top">
+    <font size="4">
+  <input  type="text" name="username" maxlength="30" size="17">
 </font>
  </td>
  <td colspan="2" style="text-align:center">
-  <input type="submit" value="Modificar">
+  <input type="submit" value="Adicionar">
  </td>
 </tr>
 </table>
 </form>
-<p>Obs: 1 dia = 1440 min, 1 semana = 10080 min.<p>
-{% endif %}
-
 
 {% for actor in actors %}
 <li><p><a href="/tweets/view/{{actor.username}}">{{actor.name}}</a> </p> </li>
