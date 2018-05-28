@@ -1,4 +1,5 @@
 from modules.csv_builder import CsvBuilder, list_to_row
+from modules.twitter_api import extract_retweeted_author_id
 from modules.twitter_user import TwitterUser
 import json
 from app.models import Actor
@@ -36,5 +37,30 @@ def capture_tweets(id, day=1, month=1, year=2018):
 
 	else: 
 		csv = "none"
+
+	return csv	
+
+def capture_relations(day=1, month=1, year=2018):
+	header_json = json.load(open("helpers/relations_attributes.json"))
+	ids = []
+	actors = Actor.query.all()
+
+	csv = CsvBuilder(header_json)
+
+	for actor in actors:
+		ids.append(actor.id)
+
+	for actor in actors:
+		print("Capturing RT-relations of", actor.name)
+		user = TwitterUser(actor.id)
+		id_subset = [x for x in ids if x != actor.id]	
+		if user.existence==True:
+			tweets = user.retrieve_tweets_from(day=day, month=month, year=year, raw=True)
+			mentions_ids = extract_retweeted_author_id(tweets)
+			for mention in mentions_ids:
+				if mention[0] in id_subset:
+					retweeted = Actor.query.filter_by(id=str(mention[0])).first().username
+					csv.add_row(actor.username+";"+retweeted+";"+str(mention[1])+"\n")
+
 
 	return csv	

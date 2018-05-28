@@ -1,0 +1,42 @@
+<!doctype html>
+<meta charset="UTF-8">
+<form action="/"><input type="Submit" value="Voltar"></form>
+<ul><h1 style="color: #2e6c80;">CSV de Relacoes </h1></ul>
+<ul><h2 style="color: #2e6c80;">Intervalo de Captura:</h2>
+<p><font size="4">Atualmente capturando a cada <b>{{intervalo}}</b> minutos. 
+    <br>
+    <p>Próxima captura:
+        <b> {{next}}</b>
+    </p>
+    </font>
+</p>
+<form name="htmlform" method="post" action="/relacoes/mudarintervalo">
+</tr>
+<tr>
+ <td valign="top">
+  <label for="first_name"><font size="4">Novo Intervalo:</font> </label>
+ </td>
+ <td valign="top">
+    <font size="4">
+  <input  type="number" name="intervalo" maxlength="10" size="5"> minutos
+</font>
+ </td>
+ <td colspan="2" style="text-align:center">
+  <input type="submit" value="Modificar">
+ </td>
+</tr>
+</table>
+</form>
+<p>Mínimo de 10 minutos!</p>
+<p>Obs: 1 dia = 1440 min, 1 semana = 10080 min<p>
+
+<h2 style="color: #2e6c80;">Links para download:</h2>
+
+{% for report in reports %}
+
+<p><a href="/relacoes/download_csv/{{report.id}}" download>{{report.date+"_"+report.hour}}.csv </a> </p>
+  
+{% endfor %}
+</ul>
+
+<br><br>

@@ -34,7 +34,7 @@ class TestTwitterAPI():
     def test_retweets(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
         tweets = pickle.load(open('tests/tweetlist.p', 'rb'))
-        assert 592 == extract_retweets(tweets)
+        assert 243902 == extract_retweets(tweets)
 
     def test_favorites(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)

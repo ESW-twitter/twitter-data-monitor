@@ -86,12 +86,10 @@ def extract_retweets(tweet_list):
     retweets = 0
     if type(tweet_list)==list:
         for tweet in tweet_list:
-            if not hasattr(tweet, 'retweeted_status'):
-                retweets += tweet.retweet_count
+            retweets += tweet.retweet_count
     else:
         tweet = tweet_list
-        if not hasattr(tweet, 'retweeted_status'):
-            retweets += tweet.retweet_count
+        retweets += tweet.retweet_count
 
     return retweets
 
@@ -99,17 +97,31 @@ def extract_author(tweet):
     if hasattr(tweet, 'retweeted_status'):
         return tweet.retweeted_status.author.screen_name
     else:
-        return " "
+        return ""
             
 def extract_favorites(tweet_list):
     favorites = 0
     if type(tweet_list)==list:
         for tweet in tweet_list:
-            if not hasattr(tweet, 'retweeted_status'):
-                favorites += tweet.favorite_count
+            favorites += tweet.favorite_count
     else:
         tweet = tweet_list
-        if not hasattr(tweet, 'retweeted_status'):
-            favorites += tweet.favorite_count
+        favorites += tweet.favorite_count
                 
     return favorites
+
+def extract_retweeted_author_id(tweet_list):
+    ids = []
+    if type(tweet_list)==list:
+        for tweet in tweet_list:
+            if hasattr(tweet, 'retweeted_status'):
+                ids.append(tweet.retweeted_status.author.id_str)
+    else:
+        tweet = tweet_list
+        if hasattr(tweet, 'retweeted_status'):
+            ids.append(tweet.retweeted_status.author.id_str)
+
+    mapped = [[x,ids.count(x)] for x in set(ids)]
+    mapped.sort(key=lambda tuple: tuple[1], reverse=True)        
+
+    return mapped    

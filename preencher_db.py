@@ -70,42 +70,28 @@ class Actor(db.Model):
 
 
 
-class Teste(db.Model): 
-    id = db.Column(db.String(32), primary_key=True)
-    username = db.Column(db.String(60))
-    name = db.Column(db.String(60))
-
-    def __init__(self, id,  username, name):
-        self.id = id
-        self.name = name
-        self.username = username
-    
-    def __repr__(self):
-        return '<Actor %r>' % self.username 
-
-
-
+db.drop_all()
 db.create_all()
 
 
 
 # Adicionando atores do politicians.json
-# print("Adding Actors")
-# actors = json.load(open("helpers/politicians.json"))
-# for row in actors:
-# 	username = row["twitter_handle"]
-# 	user = TwitterUser(username)
-# 	if user.existence == True:
-# 		name = user.name
-# 		name = unidecode(name)
-# 		f = Actor(id = int(user.id), username=username, name= name)
-# 		db.session.add(f)
-# 		db.session.commit()
-# 		print(name, "added")
+print("Adding Actors")
+actors = json.load(open("helpers/politicians.json"))
+for row in actors:
+	username = row["twitter_handle"]
+	user = TwitterUser(username)
+	if user.existence == True:
+		name = user.name
+		name = unidecode(name)
+		f = Actor(id = int(user.id), username=username, name= name)
+		db.session.add(f)
+		db.session.commit()
+		print(name, "added")
 
 
 
-# Adicinando CSV's de todos os atores presentes na pasta results
+# # Adicinando CSV's de todos os atores presentes na pasta results
 # print("Adding Actors CSV's")
 # onlyfiles = [f for f in os.listdir(os.getcwd()+"/results/") if isfile(join(os.getcwd()+"/results/", f))]
 # onlycsvs = [f for f in onlyfiles if f[-4:]=='.csv' and f != 'test.csv']
@@ -120,7 +106,7 @@ db.create_all()
 # 	print(date, "capture added")
 
 
-# Adicionando CSV's Tweets por ator contidos na pasta results/Tweet_Backup
+# # Adicionando CSV's Tweets por ator contidos na pasta results/Tweet_Backup
 # print("Adding Tweets from Actor CSV's")
 # actors = Actor.query.all()
 # for actor in actors:
