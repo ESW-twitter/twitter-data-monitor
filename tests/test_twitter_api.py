@@ -6,6 +6,7 @@ import pickle
 from modules.twitter_api import TwitterAPI, extract_retweets, extract_mentions, extract_hashtags, extract_favorites
 from dateutil.relativedelta import relativedelta
 
+
 class TestTwitterAPI():
     # time consuming
     def test_time_range(self):

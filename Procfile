@@ -1,2 +1,1 @@
-web: gunicorn __init__:app
-clock: python app.scheduler.py
+web: gunicorn  --workers 1 __init__:app

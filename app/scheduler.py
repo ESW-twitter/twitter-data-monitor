@@ -12,6 +12,7 @@ jobstores = {
 }
 
 scheduler = BackgroundScheduler(jobstores=jobstores)
+# scheduler = BackgroundScheduler()
 # scheduler.add_jobstore('sqlalchemy', engine=db.engine)
 scheduler.start()
 
