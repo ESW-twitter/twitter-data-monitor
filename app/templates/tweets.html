@@ -19,7 +19,7 @@
     <br><p>Próxima captura: <b> {{next}}</b></p>
     </font>
 </p>
-<form name="htmlform" method="post" action="/tweets/mudarintervalo/{{actor.username}}">
+<form name="htmlform" method="post" action="/tweets/mudarintervalo/{{actor.id}}">
 </tr>
 <tr>
  <td valign="left">
@@ -39,7 +39,7 @@
 <h2 style="color: #2e6c80;">Links para download:</h2>
 
 {% for report in reports %}
-<p><a href="/tweets/download_csv/{{report.id}}" download>{{report.username+"-"+report.date}}.csv </a> </p>
+<p><a href="/tweets/download_csv/{{report.id}}" download>{{actor.username+"-"+report.date+"_"+report.hour}}.csv </a> </p>
   
 {% endfor %}
 </ul>

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from apscheduler.triggers.interval import IntervalTrigger
 import threading
 from modules.twitter_user import TwitterUser
-from modules.capture import capture_actors, capture_tweets
+from modules.capture import capture_actors, capture_tweets, capture_relations
 import json
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -12,76 +12,87 @@ import json
 import time
 
 class actors_job:
-    def __init__(self, in_local_File=False):
-        self.thread = threading.Thread(target=self.run, args=())
-        self.inFile=in_local_File
-
-    def start(self):    
+    def __init__(self):
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True                       
-        self.thread.start()
+        self.thread.start()   
 
     def run(self):
+        check_actors_usernames()
         csv = capture_actors()
-        date = str(datetime.utcnow()).split(".")[0]        
+        date = str(datetime.utcnow()).split(" ")[0]        
+        hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]        
         
-        if not self.inFile:
-            f = ActorReport(date, csv.content.encode())
-            db.session.add(f)
-            db.session.commit()
-        else:
-            csv.save(name=date)    
+        f = ActorReport(date= date, hour=hour, csv_content= csv.content.encode())
+        db.session.add(f)
+        db.session.commit()
+          
 
 class tweets_job:
-    def __init__(self, username, in_local_File=False):
-        self.thread = threading.Thread(target=self.run, args=())
-        self.inFile=in_local_File
-        self.username = username
-
-    def start(self):    
+    def __init__(self, id):
+        self.id = id
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True                       
         self.thread.start()
 
     def run(self):
+        csv = capture_tweets(self.id)
+        date = str(datetime.utcnow()).split(" ")[0]        
+        hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]
 
-        csv = capture_tweets(self.username)
-        date = str(datetime.utcnow()).split(".")[0]        
-        
         if csv == "none":
             return
 
-        if not self.inFile:
-            f = TweetReport(date, self.username, csv.content.encode())
-            db.session.add(f)
-            db.session.commit()
-        else:
-            csv.save(name=date, dir=self.username)
+        f = TweetReport(date = date, hour= hour, actor_id = self.id, csv_content=csv.content.encode())
+        db.session.add(f)
+        db.session.commit()
 
-class reschedule_tweet_jobs:
-    def __init__(self, scheduler, minutes=10080):
-        self.thread = threading.Thread(target=self.run, args=())
-        self.scheduler = scheduler
-        self.minutes = minutes
-    def start(self):    
+class relations_job:
+    def __init__(self):
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True                       
         self.thread.start()
 
     def run(self):
-        actors = Actor.query.all()
-        for actor in actors:
-            time.sleep(20) #20 segundos entre um e outro
-            username = actor.username
-            if len(username) > 2:
-                job = self.scheduler.get_job(username)
-                job.reschedule(trigger=IntervalTrigger(self.minutes))
+        check_actors_usernames()
+        csv = capture_relations()
+        date = str(datetime.utcnow()).split(" ")[0]        
+        hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]        
+        
+        f = RelationReport(date= date, hour=hour, csv_content= csv.content.encode())
+        db.session.add(f)
+        db.session.commit()
+    
+
+class reschedule_all_jobs:
+    def __init__(self, scheduler):
+        self.scheduler = scheduler    
+        self.thread = threading.Thread(target=self.run, args=())
+        self.thread.daemon = True                       
+        self.thread.start()
+
+    def run(self):
+        jobs = self.scheduler.get_jobs()
+        for job in jobs:
+            time.sleep(60)
+            job.reschedule(trigger=IntervalTrigger(seconds=job.trigger.interval_length)) 
+
+
+def check_actors_usernames():
+    print("Checking if actors usernames remain the same...")
+    actors = Actor.query.all()
+    for actor in actors:
+        user = TwitterUser(actor.id)
+        if user.existence == True:  
+            if user.username != actor.username:
+                print(actor.username,"changed to:", user.username)
+                Actor.query.filter_by(id=actor.id).update(dict(username=user.username))
+                db.session.commit()
 
 
 def capture_tweets_from_all():
     actors = Actor.query.all()
     for actor in actors:        
-        username = actor.username
-        job = tweets_job(username)
-        job.start()
-        time.sleep(5)    
+        id = actor.id
+        job = tweets_job(id)
+        time.sleep(15)    

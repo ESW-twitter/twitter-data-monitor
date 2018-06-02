@@ -3,13 +3,13 @@ from modules.csv_builder import list_to_string
 
 class TwitterUser:
 
-	def __init__(self,username):
+	def __init__(self,id):
 		api = TwitterAPI()
-		if username != '':
+		if id != '':
 			try:
-				user = api.get_user(username)
+				user = api.get_user(id)
 				self.existence = True
-				self.id = user.id
+				self.id = user.id_str
 				self.username = user.screen_name
 				self.name = user.name
 				self.followers_count = user.followers_count
@@ -22,10 +22,13 @@ class TwitterUser:
 			self.existence = False
 
 
-	def retrieve_tweets_from(self, day, month, year, hour=0, minute=0):
+	def retrieve_tweets_from(self, day, month, year, hour=0, minute=0, raw=False):
 		api = TwitterAPI()
 		tweets_raw = api.get_user_tweets_from(self.username, day, month, year, hour, minute)
 		tweet_list = []
+
+		if raw:
+			return tweets_raw
 
 		for tweet_raw in tweets_raw:
 			tweet = []

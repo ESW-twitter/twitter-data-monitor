@@ -1,15 +1,7 @@
 <!doctype html>
 <meta charset="UTF-8">
 <form action="/"><input type="Submit" value="Voltar"></form>
-<ul><h1 style="color: #2e6c80;">CSV com todos atores </h1>
-<h2 style="color: #2e6c80;">Informações contidas nos CSV's:</h2>
-<ol>
-<li><p>Seguidores: Número de seguidores da conta</p></li>
-<li><p>Tweets: Número de tweets da conta</p></li>
-<li><p>Seguindo: Número de perfis que a conta segue</p></li>
-<li><p>Curtidas: Número de curtidas da conta</p></li>
-</ol>
-</ul>
+<ul><h1 style="color: #2e6c80;">CSV de Relacoes </h1></ul>
 <ul><h2 style="color: #2e6c80;">Intervalo de Captura:</h2>
 <p><font size="4">Atualmente capturando a cada <b>{{intervalo}}</b> minutos. 
     <br>
@@ -18,7 +10,7 @@
     </p>
     </font>
 </p>
-<form name="htmlform" method="post" action="/atores/mudarintervalo">
+<form name="htmlform" method="post" action="/relacoes/mudarintervalo">
 </tr>
 <tr>
  <td valign="top">
@@ -35,15 +27,16 @@
 </tr>
 </table>
 </form>
+<p>Mínimo de 10 minutos!</p>
 <p>Obs: 1 dia = 1440 min, 1 semana = 10080 min<p>
 
 <h2 style="color: #2e6c80;">Links para download:</h2>
 
 {% for report in reports %}
-<p><a href="/atores/download_csv/{{report.id}}" download>{{report.date+"_"+report.hour}}.csv </a> </p>
+
+<p><a href="/relacoes/download_csv/{{report.id}}" download>{{report.date+"_"+report.hour}}.csv </a> </p>
   
 {% endfor %}
 </ul>
 
 <br><br>
-
