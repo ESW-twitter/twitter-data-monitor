@@ -68,11 +68,8 @@ class Actor(db.Model):
     def __repr__(self):
         return '<Actor %r>' % self.username 
 
-
-
 db.drop_all()
 db.create_all()
-
 
 
 # Adicionando atores do politicians.json

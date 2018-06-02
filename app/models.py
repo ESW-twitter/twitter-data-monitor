@@ -54,4 +54,5 @@ class Actor(db.Model):
         self.username = username
     
     def __repr__(self):
-        return '<Actor %r>' % self.username          
+        return '<Actor %r>' % self.id
+
