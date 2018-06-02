@@ -13,18 +13,9 @@ import time
 
 class actors_job:
     def __init__(self):
-        pass
-
-    def isAlive(self):
-        try:
-            return self.thread.isAlive()    
-        except:
-            return False    
-
-    def start(self):    
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True                       
-        self.thread.start()
+        self.thread.start()   
 
     def run(self):
         check_actors_usernames()
@@ -40,14 +31,6 @@ class actors_job:
 class tweets_job:
     def __init__(self, id):
         self.id = id
-
-    def isAlive(self):
-        try:
-            return self.thread.isAlive()    
-        except:
-            return False
-
-    def start(self):    
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True                       
         self.thread.start()
@@ -66,15 +49,6 @@ class tweets_job:
 
 class relations_job:
     def __init__(self):
-        pass
-
-    def isAlive(self):
-        try:
-            return self.thread.isAlive()    
-        except:
-            return False
-
-    def start(self):    
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True                       
         self.thread.start()
@@ -92,9 +66,9 @@ class relations_job:
 
 class reschedule_all_jobs:
     def __init__(self, scheduler):
-        self.scheduler = scheduler
+        self.scheduler = scheduler    
         self.thread = threading.Thread(target=self.run, args=())
-        self.thread.daemon = True
+        self.thread.daemon = True                       
         self.thread.start()
 
     def run(self):
@@ -121,5 +95,4 @@ def capture_tweets_from_all():
     for actor in actors:        
         id = actor.id
         job = tweets_job(id)
-        job.start()
         time.sleep(15)    

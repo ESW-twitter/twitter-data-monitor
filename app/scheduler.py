@@ -3,22 +3,26 @@ from apscheduler.triggers.interval import IntervalTrigger
 from app.capture_jobs import actors_job, tweets_job, relations_job, reschedule_all_jobs
 from app.models import Actor
 import threading
+from app import db
 
 scheduler = BackgroundScheduler()
+scheduler.add_jobstore('sqlalchemy', engine=db.engine)
+scheduler.start()
 
 #adding all actors job to the scheduler
-scheduler.add_job(actors_job().start, 'interval', days=7, id='actors')
+if not scheduler.get_job(job_id='actors'):
+	scheduler.add_job(actors_job, 'interval', minutes=10080, replace_existing=False, id='actors')
 
 #adding relations job to the scheduler
-scheduler.add_job(relations_job().start, 'interval', days=7, id='relations')
+if not scheduler.get_job(job_id='relations'):
+	scheduler.add_job(relations_job, 'interval', minutes=10080, replace_existing=False, id='relations')
 
 #adding tweets job for each actor
 actors = Actor.query.all()
 for actor in actors:
 	id = actor.id
-	scheduler.add_job(tweets_job(id=id).start, 'interval', days=7, id=id)
-		
-scheduler.start()
+	if not scheduler.get_job(job_id=id):		
+		scheduler.add_job(tweets_job, 'interval', minutes=10080, replace_existing=False, id=id, args=[id])
 
 # avoiding a great number of threads starting at the same time
 rescheduling = reschedule_all_jobs(scheduler)
@@ -48,7 +52,7 @@ def reschedule_job(id, minutes):
 		return
 	elif minutes < 2:
 		print("ERRO! Intervalo mínimo é 2 minutos!")	 
-	
+		return 
 	try:
 		scheduler.reschedule_job(job_id=id, trigger=IntervalTrigger(minutes=minutes))
 		print("Intervalo de "+id+" modificado para "+str(minutes))
