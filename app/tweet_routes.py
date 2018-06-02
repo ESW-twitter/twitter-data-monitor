@@ -1,7 +1,7 @@
 #coding: utf-8
 from app import app, db
 from app.models import TweetReport, Actor
-from app.scheduler import scheduler, retrieve_interval, retrieve_next_runtime, reschedule_tweet_job
+from app.scheduler import scheduler, retrieve_interval, retrieve_next_runtime, reschedule_job
 from flask import Flask, make_response, request, render_template, redirect
 from apscheduler.triggers.interval import IntervalTrigger
 
@@ -16,7 +16,7 @@ def tweet_change_interval(id):
 
     if request.method == 'POST':
         minutes = int(request.form['intervalo'])
-        reschedule_tweet_job(actor.id, minutes)
+        reschedule_job(id=actor.id, minutes=minutes)
 
     return redirect("/tweets/view/"+actor.username)
 

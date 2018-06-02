@@ -75,7 +75,7 @@ def api_get_actor_account_date(username,date):
 		reports = ActorReport.query.filter_by(date=date)
 		
 		if reports.count()==0:
-			data = {'code': '500', 'message': 'Internal Server Error', 'details': 'Could not find CSV for specific date.'}
+			data = {'code': '500', 'message': 'Internal Server Error', 'details': 'Sorry, no data for specific date.'}
 			return jsonify(data)
 
 		data = {}
@@ -85,11 +85,13 @@ def api_get_actor_account_date(username,date):
 				aux = line.split(';')
 				try:
 					if len(aux)>5 and actor.id == aux[0]:
-						hour_data = {'date': date, 'code': '200', 'message':'Success', 'username': aux[2], 'name': aux[1], 'followers_count': aux[3], 'tweets_count': aux[6], 'following_count': aux[4], 'likes_count': aux[5] }
+						hour_data = {'date': date, 'username': aux[2], 'name': aux[1], 'followers_count': aux[3], 'tweets_count': aux[6], 'following_count': aux[4], 'likes_count': aux[5] }
 						data[report.hour]=hour_data
 				except:
 					pass
-		if data:				
+		if data:
+			data['code']= '200'
+			data['message']='Success',				
 			return jsonify(data)
 		
 		data = {'code': '400', 'message': 'Bad Request', 'details': 'Sorry. No data for specific date.'}
@@ -108,7 +110,7 @@ def api_get_actor_account_date_tweets(username,date):
 	report = TweetReport.query.filter_by(actor_id= actor.id).filter_by(date = date).first()
 
 	if not report:
-		data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username or date.'}
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'Sorry. No data for specific date.'}
 		return jsonify(data)
 	else:
 		content = report.csv_content.decode()
