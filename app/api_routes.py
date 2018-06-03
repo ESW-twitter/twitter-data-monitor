@@ -8,7 +8,7 @@ from app import db
 @app.route('/test')
 def test_route():
 	return "hello world"
-	
+
 @app.route('/api/actors')
 def api_get_actors():
 	data = {}
@@ -34,7 +34,7 @@ def api_get_actors_datetime():
 	for report in reports:
 		dates.append(report.date)
 
-	data['dates'] = list(set(dates))
+	data['dates'] = dates
 	data['code'] = '200'
 	data['message'] = 'Success'
 	return jsonify(data)

@@ -55,5 +55,8 @@ class TestAPIRoutes():
             db.session.commit()
             response = api_get_actors_datetime()
 
-        assert '{"code":"200","dates":["03/02/2018","01/02/2018","02/02/2018"],"message":"Success"}\n' == response.get_data().decode()
+        assert '{"code":"200","dates":["01/02/2018","02/02/2018","03/02/2018"],"message":"Success"}\n' == response.get_data().decode()
         TestAPIRoutes.tearDown()
+
+    def test_api_get_actor_account_date(self):
+        TestAPIRoutes.setUp()

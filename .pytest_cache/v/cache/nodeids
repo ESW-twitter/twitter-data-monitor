@@ -1,5 +1,6 @@
 [
   "tests/test_api_routes.py::test_route",
   "tests/test_api_routes.py::TestAPIRoutes::()::test_api_get_actors",
-  "tests/test_api_routes.py::TestAPIRoutes::()::test_api_actors_datetime"
+  "tests/test_api_routes.py::TestAPIRoutes::()::test_api_actors_datetime",
+  "tests/test_api_routes.py::TestAPIRoutes::()::test_api_get_actor_account_date"
 ]
