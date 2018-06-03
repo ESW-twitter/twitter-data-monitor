@@ -28,35 +28,43 @@ class TestAPIRoutes():
 
 
     def test_api_get_actors(self):
-        TestAPIRoutes.setUp()
         user = TwitterUser('CNN')
         user = Actor(user.id, user.username, user.name)
 
         with app.app_context():
+            TestAPIRoutes.setUp()
             db.session.add(user)
             db.session.commit()
             response = api_get_actors()
+            TestAPIRoutes.tearDown()
 
         assert '{"actors":["CNN"],"code":"200","length":1,"message":"Success"}\n' == response.get_data().decode()
 
-        TestAPIRoutes.tearDown()
 
     def test_api_actors_datetime(self):
-        TestAPIRoutes.setUp()
-
         a = ActorReport('01/02/2018', None, None)
         b = ActorReport('02/02/2018', None, None)
         c = ActorReport('03/02/2018', None, None)
 
         with app.app_context():
+            TestAPIRoutes.setUp()
             db.session.add(a)
             db.session.add(b)
             db.session.add(c)
             db.session.commit()
             response = api_get_actors_datetime()
+            TestAPIRoutes.tearDown()
 
         assert '{"code":"200","dates":["01/02/2018","02/02/2018","03/02/2018"],"message":"Success"}\n' == response.get_data().decode()
-        TestAPIRoutes.tearDown()
 
-    def test_api_get_actor_account_date(self):
-        TestAPIRoutes.setUp()
+    def test_api_get_actor_account_date_invalid_user(self):
+
+        with app.app_context():
+            TestAPIRoutes.setUp()
+            response = api_get_actor_account_date('CNN', None)
+            TestAPIRoutes.tearDown()
+
+        # assert 1 == response.get_data().decode()
+        assert '400' == json.loads(response.get_data().decode())['code']
+
+    
