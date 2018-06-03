@@ -1,14 +1,21 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from app import app
-from app import models
 import os
 
+from app import app
 
-def setUp():
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
-    app.config['TESTING'] = True
-    db.create_all()
+class TestAPIRoutes():
 
-def tearDown():
-    db.drop_all()
+    def setUp():
+        print("Rodando setup...\n")
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+        app.config['TESTING'] = True
+        db.create_all()
+
+    def tearDown():
+        print("Rodando tear down...\n")
+        db.drop_all()
+
+
+    def test(self):
+        TestAPIRoutes.setUp()
