@@ -67,4 +67,17 @@ class TestAPIRoutes():
         # assert 1 == response.get_data().decode()
         assert '400' == json.loads(response.get_data().decode())['code']
 
-    
+    def test_api_get_actor_account_date(self):
+        csv_content = 'nome;seguidores;tweets;seguindo;curtidas;retweets;favorites;hashtags;mentions\n923257662569148417;1715;146;193;104;0;0;;;\n'
+        a = ActorReport('01-01-2018', '12:00', csv_content.encode())
+        user = TwitterUser('Renova_BR')
+        user = Actor(user.id, user.username, user.name)
+        with app.app_context():
+            TestAPIRoutes.setUp()
+            db.session.add(a)
+            db.session.add(user)
+            db.session.commit()
+            response = api_get_actor_account_date('Renova_BR', '01-01-2018')
+            TestAPIRoutes.tearDown()
+
+        assert '{"12:00":{"date":"01-01-2018","followers_count":"193","following_count":"104","likes_count":"0","name":"1715","tweets_count":"0","username":"146"},"code":"200","message":["Success"]}\n' == response.get_data().decode()
