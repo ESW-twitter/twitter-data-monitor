@@ -56,13 +56,3 @@ class Actor(db.Model):
     def __repr__(self):
         return '<Actor %r>' % self.id
 
-class Interval(db.Model): 
-    id = db.Column(db.String(32), primary_key=True)
-    minutes = db.Column(db.Integer)
-    def __init__(self, id, minutes):
-        self.id = id
-        self.minutes = minutes
-    
-    def __repr__(self):
-        return '<Interval %r>' % self.id 
-

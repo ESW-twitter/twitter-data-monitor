@@ -1,12 +1,19 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from app.capture_jobs import actors_job, tweets_job, relations_job, reschedule_all_jobs
 from app.models import Actor
 import threading
 from app import db
+import os
 
-scheduler = BackgroundScheduler()
-scheduler.add_jobstore('sqlalchemy', engine=db.engine)
+jobstores = {
+    'default': SQLAlchemyJobStore(os.environ.get('DATABASE_URL'))
+}
+
+scheduler = BackgroundScheduler(jobstores=jobstores)
+# scheduler = BackgroundScheduler()
+# scheduler.add_jobstore('sqlalchemy', engine=db.engine)
 scheduler.start()
 
 #adding all actors job to the scheduler
@@ -18,8 +25,8 @@ if not scheduler.get_job(job_id='relations'):
 	scheduler.add_job(relations_job, 'interval', minutes=10080, replace_existing=False, id='relations')
 
 #adding tweets job for each actor
-# actors = Actor.query.all()
-actors = []
+actors = Actor.query.all()
+# actors = []
 for actor in actors:
 	id = actor.id
 	if not scheduler.get_job(job_id=id):

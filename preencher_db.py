@@ -88,45 +88,6 @@ for row in actors:
 
 
 
-# # Adicinando CSV's de todos os atores presentes na pasta results
-# print("Adding Actors CSV's")
-# onlyfiles = [f for f in os.listdir(os.getcwd()+"/results/") if isfile(join(os.getcwd()+"/results/", f))]
-# onlycsvs = [f for f in onlyfiles if f[-4:]=='.csv' and f != 'test.csv']
-# onlycsvs.sort()
-# for csv in onlycsvs:
-# 	file = open('results/'+csv, 'r')
-# 	csv_content = file.read().encode()
-# 	date = csv[:-4].replace("_", ":")
-# 	report = ActorReport(date, csv_content)
-# 	db.session.add(report)
-# 	db.session.commit()
-# 	print(date, "capture added")
-
-
-# # Adicionando CSV's Tweets por ator contidos na pasta results/Tweet_Backup
-# print("Adding Tweets from Actor CSV's")
-# actors = Actor.query.all()
-# for actor in actors:
-# 	onlyfiles = [f for f in os.listdir(os.getcwd()+"/results/Tweet_Backup") if isfile(join(os.getcwd()+"/results/Tweet_Backup", f))]
-# 	onlycsvs = [f for f in onlyfiles if f[-4:]=='.csv' and f != 'test.csv']
-# 	onlyactorcsvs = [f for f in onlycsvs if f[:len(actor.username)]==actor.username]
-# 	if len(onlyactorcsvs)==0:
-# 		print(actor.nem, "não tem CSV", actor.username)
-
-# 	for csv in onlyactorcsvs:
-# 		file = open('results/Tweet_Backup/'+csv, 'r')
-# 		csv_content = file.read().encode()
-# 		date = csv[(len(actor.username)+1):-4].replace("_", ":")
-# 		f = TweetReport(date=date, username=actor.username, csv_content=csv_content)
-# 		db.session.add(f)
-# 		db.session.commit()
-# 		print(actor.username, "capture of", date, "added")
-
-
-
-
-
-
 
 
 
