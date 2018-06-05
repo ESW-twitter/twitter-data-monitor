@@ -3,5 +3,16 @@
   "tests/test_api_routes.py::TestAPIRoutes::()::test_api_get_actors",
   "tests/test_api_routes.py::TestAPIRoutes::()::test_api_actors_datetime",
   "tests/test_api_routes.py::TestAPIRoutes::()::test_api_get_actor_account_date_invalid_user",
-  "tests/test_api_routes.py::TestAPIRoutes::()::test_api_get_actor_account_date"
+  "tests/test_api_routes.py::TestAPIRoutes::()::test_api_get_actor_account_date",
+  "tests/test_csv_builder.py::TestFileCSV::()::test_file_exist",
+  "tests/test_csv_builder.py::TestFileCSV::()::test_list_to_row",
+  "tests/test_csv_builder.py::TestFileCSV::()::test_list_to_string",
+  "tests/test_twitter_api.py::TestTwitterAPI::()::test_time_range",
+  "tests/test_twitter_api.py::TestTwitterAPI::()::test_hashtags",
+  "tests/test_twitter_api.py::TestTwitterAPI::()::test_mentions",
+  "tests/test_twitter_api.py::TestTwitterAPI::()::test_retweets",
+  "tests/test_twitter_api.py::TestTwitterAPI::()::test_favorites",
+  "tests/test_twitter_user.py::TestTwitterUser::()::test_name_retrieval",
+  "tests/test_twitter_user.py::TestTwitterUser::()::test_account_existance",
+  "tests/test_twitter_user.py::TestTwitterUser::()::test_false_account"
 ]

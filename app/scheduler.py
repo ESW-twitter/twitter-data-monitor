@@ -25,8 +25,7 @@ if not scheduler.get_job(job_id='relations'):
 	scheduler.add_job(relations_job, 'interval', minutes=10080, replace_existing=False, id='relations')
 
 #adding tweets job for each actor
-actors = Actor.query.all()
-# actors = []
+actors = Actor.query.all() ## -- não funciona -- ##
 for actor in actors:
 	id = actor.id
 	if not scheduler.get_job(job_id=id):

@@ -1,3 +1,4 @@
 {
+  "tests/test_api_routes.py::TestAPIRoutes::()": true,
   "tests/test_twitter_data_monitor_api.py::test_empty_db": true
 }
