@@ -56,3 +56,4 @@ class Actor(db.Model):
     def __repr__(self):
         return '<Actor %r>' % self.id
 
+db.create_all()

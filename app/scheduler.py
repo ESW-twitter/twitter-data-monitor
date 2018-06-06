@@ -12,8 +12,6 @@ jobstores = {
 }
 
 scheduler = BackgroundScheduler(jobstores=jobstores)
-# scheduler = BackgroundScheduler()
-# scheduler.add_jobstore('sqlalchemy', engine=db.engine)
 scheduler.start()
 
 #adding all actors job to the scheduler
@@ -32,7 +30,7 @@ for actor in actors:
 		scheduler.add_job(tweets_job, 'interval', minutes=10080, replace_existing=False, id=id, args=[id])
 
 # avoiding a great number of threads starting at the same time
-rescheduling = reschedule_all_jobs(scheduler)
+#rescheduling = reschedule_all_jobs(scheduler)
 
 def retrieve_interval(id):
 	try:

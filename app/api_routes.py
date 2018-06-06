@@ -34,7 +34,7 @@ def api_get_actors_datetime():
 	for report in reports:
 		dates.append(report.date)
 
-	data['dates'] = dates
+	data['dates'] = list(set(dates))
 	data['code'] = '200'
 	data['message'] = 'Success'
 	return jsonify(data)

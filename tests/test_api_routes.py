@@ -1,5 +1,5 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 import json
 from flask import jsonify
 import os
@@ -44,7 +44,7 @@ class TestAPIRoutes():
     def test_api_actors_datetime(self):
         a = ActorReport('01/02/2018', None, None)
         b = ActorReport('02/02/2018', None, None)
-        c = ActorReport('03/02/2018', None, None)
+        c = ActorReport('02/02/2018', None, None)
 
         with app.app_context():
             TestAPIRoutes.setUp()
@@ -55,7 +55,7 @@ class TestAPIRoutes():
             response = api_get_actors_datetime()
             TestAPIRoutes.tearDown()
 
-        assert '{"code":"200","dates":["01/02/2018","02/02/2018","03/02/2018"],"message":"Success"}\n' == response.get_data().decode()
+        assert '{"code":"200","dates":["01/02/2018","02/02/2018"],"message":"Success"}\n' or '{"code":"200","dates":["02/02/2018","01/02/2018"],"message":"Success"}\n' == response.get_data().decode()
 
     def test_api_get_actor_account_date_invalid_user(self):
 
