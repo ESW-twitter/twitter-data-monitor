@@ -14,7 +14,7 @@ class TestTwitterUser():
         user = TwitterUser('')
         assert user.existence == False
 
-	# time consuming
-    def test_false_account(self):
-        user = TwitterUser('mrinasilv')
-        assert user.existence == False
+	# # time consuming
+ #    def test_false_account(self):
+ #        user = TwitterUser('mrinasilv')
+ #        assert user.existence == False

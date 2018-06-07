@@ -32,7 +32,7 @@ class TwitterUser:
 
 		for tweet_raw in tweets_raw:
 			tweet = []
-			tweet.append(str(tweet_raw.created_at))	
+			tweet.append(str(tweet_raw.created_at))
 			tweet.append(tweet_raw.full_text.replace('\n',' ').replace(';', ' ').replace('"', "'"))
 			tweet.append(extract_author(tweet_raw))
 			tweet.append(extract_retweets(tweet_raw))
@@ -41,4 +41,4 @@ class TwitterUser:
 			tweet.append(list_to_string(extract_mentions(tweet_raw)))
 			tweet_list.append(tweet)
 
-		return tweet_list	
+		return tweet_list

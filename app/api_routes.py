@@ -5,6 +5,10 @@ from modules.twitter_user import TwitterUser
 from app.models import ActorReport, TweetReport, Actor
 from app import db
 
+@app.route('/test')
+def test_route():
+	return "hello world"
+
 @app.route('/api/actors')
 def api_get_actors():
 	data = {}
@@ -24,13 +28,13 @@ def api_get_actors():
 @app.route('/api/actors/datetime')
 def api_get_actors_datetime():
 	data = {}
-	dates = [] 
+	dates = []
 	length = 0
 	reports = ActorReport.query.all()
 	for report in reports:
 		dates.append(report.date)
 
-	data['dates'] = list(set(dates))	
+	data['dates'] = list(set(dates))
 	data['code'] = '200'
 	data['message'] = 'Success'
 	return jsonify(data)
@@ -44,7 +48,7 @@ def api_get_actor_account_date(username,date):
 	for actorreport in actorreports:
 		all_actors_collection_dates.append(actorreport.date)
 
-	all_actors_collection_dates = list(set(all_actors_collection_dates))	
+	all_actors_collection_dates = list(set(all_actors_collection_dates))
 
 	actor = Actor.query.filter_by(username=username).first()
 	if not actor:
@@ -58,7 +62,7 @@ def api_get_actor_account_date(username,date):
 		tweets_collection_dates.append(tweetreport.date)
 
 	tweets_collection_dates = list(set(tweets_collection_dates))
-		
+
 	if date == None :
 		user = TwitterUser(actor.id)
 		if user.existence == False :
@@ -73,14 +77,14 @@ def api_get_actor_account_date(username,date):
 	else:
 		# What to do if there's multiple records for the same date?
 		reports = ActorReport.query.filter_by(date=date)
-		
+
 		if reports.count()==0:
 			data = {'code': '500', 'message': 'Internal Server Error', 'details': 'Sorry, no data for specific date.'}
 			return jsonify(data)
 
 		data = {}
-		for report in reports:		
-			lines = report.csv_content.decode().split('\n')		
+		for report in reports:
+			lines = report.csv_content.decode().split('\n')
 			for line in lines:
 				aux = line.split(';')
 				try:
@@ -91,16 +95,16 @@ def api_get_actor_account_date(username,date):
 					pass
 		if data:
 			data['code']= '200'
-			data['message']='Success',				
+			data['message']='Success',
 			return jsonify(data)
-		
+
 		data = {'code': '400', 'message': 'Bad Request', 'details': 'Sorry. No data for specific date.'}
 		return jsonify(data)
-		
+
 
 @app.route('/api/actor/<username>/<date>/tweets')
 def api_get_actor_account_date_tweets(username,date):
-	
+
 	actor = Actor.query.filter_by(username=username).first()
 	if not actor:
 		data = {'code': '400', 'message': 'Bad Request', 'details': 'Invalid username.'}
