@@ -64,3 +64,8 @@ def capture_relations(day=1, month=1, year=2018):
 
 
 	return csv	
+
+
+
+
+
