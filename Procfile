@@ -1,1 +1,2 @@
-web: gunicorn --workers 2 __init__:app
+web: gunicorn __init__:app
+clock: python3 clock.py

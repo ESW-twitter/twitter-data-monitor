@@ -12,7 +12,7 @@ jobstores = {
 }
 
 scheduler = BackgroundScheduler(jobstores=jobstores)
-scheduler.start()
+scheduler.start(paused=True)
 
 #adding all actors job to the scheduler
 if not scheduler.get_job(job_id='actors'):
@@ -31,6 +31,7 @@ for actor in actors:
 
 # avoiding a great number of threads starting at the same time
 #rescheduling = reschedule_all_jobs(scheduler)
+
 
 def retrieve_interval(id):
 	try:
