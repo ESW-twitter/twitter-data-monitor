@@ -179,7 +179,7 @@ def api_get_relations_actor(username):
 		data['message'] = 'Success'
 		return jsonify(data)
 
-@api.route('api/relations/<username>/<username_2>')
+@app.route('api/relations/<username>/<username_2>')
 def api_get_relations_between(username, username_2):
 	data = {}
 
