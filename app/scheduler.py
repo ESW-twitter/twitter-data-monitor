@@ -1,7 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from app.capture_jobs import actors_job, tweets_job, relations_job, reschedule_all_jobs
+from app.capture_jobs import actors_job, tweets_job, relations_job, relations_timeline_job, reschedule_all_jobs
 from app.models import Actor
 import threading
 from app import db
@@ -17,6 +17,9 @@ scheduler.start(paused=True)
 #adding all actors job to the scheduler
 if not scheduler.get_job(job_id='actors'):
 	scheduler.add_job(actors_job, 'interval', minutes=10080, replace_existing=False, id='actors')
+
+if not scheduler.get_job(job_id='relations_timeline'):
+	scheduler.add_job(relations_timeline_job, 'interval', minutes=10080, replace_existing=False, id='relations_timeline')
 
 #adding relations job to the scheduler
 if not scheduler.get_job(job_id='relations'):

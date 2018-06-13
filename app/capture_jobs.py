@@ -2,12 +2,12 @@ from datetime import datetime, timedelta
 from apscheduler.triggers.interval import IntervalTrigger
 import threading
 from modules.twitter_user import TwitterUser
-from modules.capture import capture_actors, capture_tweets, capture_relations
+from modules.capture import capture_actors, capture_tweets, capture_relations, capture_relations_timeline
 import json
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from app import db 
-from app.models import ActorReport, TweetReport, RelationReport, Actor
+from app.models import ActorReport, TweetReport, RelationReport, TLRelationReport, Actor
 import json
 import time
 
@@ -60,6 +60,21 @@ class relations_job:
         hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]        
         
         f = RelationReport(date= date, hour=hour, csv_content= csv.content.encode())
+        db.session.add(f)
+        db.session.commit()
+
+class relations_timeline_job:
+    def __init__(self):
+        self.thread = threading.Thread(target=self.run, args=())
+        self.thread.daemon = True                       
+        self.thread.start()
+
+    def run(self):
+        csv = capture_relations_timeline()
+        date = str(datetime.utcnow()).split(" ")[0]        
+        hour = str(datetime.utcnow()).split(" ")[1].split(".")[0]        
+        
+        f = TLRelationReport(date= date, hour=hour, csv_content= csv.content.encode())
         db.session.add(f)
         db.session.commit()
     
