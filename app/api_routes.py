@@ -130,3 +130,79 @@ def api_get_actor_account_date_tweets(username,date):
 		data['code'] = '200'
 		data['message'] = 'Success'
 		return jsonify(data)
+
+@app.route('/api/relations')
+def api_get_relations():
+	data = {}
+
+	try:
+		relation = RelationReport.query.all().first()
+	except:
+		relation = None
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
+		return jsonify(data)
+
+	if relation:
+		content = relation.csv_content.decode()
+		content = content.split('\n')
+		data['relations'] = []
+		for line in content[1:]:
+			aux_line = line.split(';')
+			data['relations'].append({'actor': aux_line[0], 'retweeted': aux_line[1], 'quantity': aux_line[2]})
+
+		data['code'] = '200'
+		data['message'] = 'Success'
+		return jsonify(data)
+
+@app.route('/api/relations/<username>')
+def api_get_relations_actor(username):
+	data = {}
+
+	try:
+		relation = RelationReport.query.all().first()
+	except:
+		relation = None
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
+		return jsonify(data)
+
+	if relation:
+		content = relation.csv_content.decode()
+		content = content.split('\n')
+		data['relations'] = []
+
+		for line in content[1:]:
+			aux_line = line.split(';')
+			if aux_line[0] == username:
+				data['relations'].append({'retweeted': aux_line[1], 'quantity': aux_line[2]})
+
+		data['code'] = '200'
+		data['message'] = 'Success'
+		return jsonify(data)
+
+@app.route('/api/relations/<username>/<username_2>')
+def api_get_relations_between(username, username_2):
+	data = {}
+
+	try:
+		relation = RelationReport.query.all().first()
+	except:
+		relation = None
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
+		return jsonify(data)
+
+	if relation:
+		content = relation.csv_content.decode()
+		content = content.split('\n')
+		data['relations'] = []
+
+		for line in content[1:]:
+			aux_line = line.split(';')
+			if aux_line[0] == username and aux_line[1] == username_2:
+				data['relations'].append({'actor':aux_line[0],'retweeted': aux_line[1], 'quantity': aux_line[2]})
+			elif aux_line[1] == username and aux_line[0] == username_2:
+				data['relations'].append({'actor':aux_line[1],'retweeted': aux_line[0], 'quantity': aux_line[2]})
+
+
+		data['code'] = '200'
+		data['message'] = 'Success'
+		return jsonify(data)
