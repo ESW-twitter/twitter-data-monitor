@@ -41,7 +41,7 @@ def tweet_delete():
         try:
             req_id = int(request.form['id'])
             report = TweetReport.query.filter_by(id= req_id).first()
-            username = Actor.query.filter_by(id=req_id).first().username
+            username = Actor.query.filter_by(id=report.actor_id).first().username
             db.session.delete(report)
             db.session.commit()
             print("Apagada captura de ", report.date, report.hour)

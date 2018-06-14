@@ -43,6 +43,20 @@ class RelationReport(db.Model):
     def __repr__(self):
         return '<RelationReport %r>' % self.id                
 
+class TLRelationReport(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(30))
+    hour = db.Column(db.String(30))
+    csv_content = db.Column(db.LargeBinary(length=(2**32)-1))
+
+    def __init__(self, date, hour, csv_content):
+        self.date = date
+        self.hour = hour
+        self.csv_content = csv_content
+    def __repr__(self):
+        return '<TLRelationReport %r>' % self.id 
+
+
 class Actor(db.Model): 
     id = db.Column(db.String(32), primary_key=True)
     username = db.Column(db.String(60))
