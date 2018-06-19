@@ -136,7 +136,7 @@ def api_get_relations():
 	data = {}
 
 	try:
-		relation = RelationReport.query.all().first()
+		relation = RelationReport.query.all()[-1]
 	except:
 		relation = None
 		data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
@@ -159,7 +159,7 @@ def api_get_relations_actor(username):
 	data = {}
 
 	try:
-		relation = RelationReport.query.all().first()
+		relation = RelationReport.query.all()[-1]
 	except:
 		relation = None
 		data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
@@ -184,7 +184,7 @@ def api_get_relations_between(username, username_2):
 	data = {}
 
 	try:
-		relation = RelationReport.query.all().first()
+		relation = RelationReport.query.all()[-1]
 	except:
 		relation = None
 		data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
