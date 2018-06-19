@@ -148,7 +148,10 @@ def api_get_relations():
 		data['relations'] = []
 		for line in content[1:]:
 			aux_line = line.split(';')
-			data['relations'].append({'actor': aux_line[0], 'retweeted': aux_line[1], 'quantity': aux_line[2]})
+			try:
+				data['relations'].append({'actor': aux_line[0], 'retweeted': aux_line[1], 'quantity': aux_line[2]})
+			except:
+				pass
 
 	tl = TLRelationReport.query.all()[0]
 	content = tl.csv_content.decode()
@@ -248,7 +251,7 @@ def api_get_relations_between(date, username, username_2):
 		return jsonify(data)
 
 	data['relations'] = []
-	for line in content.split('\n'):
+	for line in content.split('\n')[1:]:
 		aux_line = line.split(';')
 		if aux_line[0] == username and aux_line[1] == username_2:
 			data['relations'].append({'actor':aux_line[0],'retweeted': aux_line[1], 'quantity': aux_line[content_date]})
