@@ -2,7 +2,7 @@ from app import app
 import json
 from flask import jsonify
 from modules.twitter_user import TwitterUser
-from app.models import ActorReport, TweetReport, Actor, TLRelationReport
+from app.models import ActorReport, TweetReport, Actor, RelationReport, TLRelationReport
 from app import db
 
 @app.route('/test')
