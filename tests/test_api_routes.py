@@ -64,7 +64,6 @@ class TestAPIRoutes():
             response = api_get_actor_account_date('CNN', None)
             TestAPIRoutes.tearDown()
 
-        # assert 1 == response.get_data().decode()
         assert '400' == json.loads(response.get_data().decode())['code']
 
     def test_api_get_actor_account_date(self):

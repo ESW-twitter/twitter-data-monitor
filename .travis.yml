@@ -13,3 +13,8 @@ script:
 
 notifications:
   webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
+
+# deploy:
+#   provider: heroku
+#   api_key: ...
+#   app: twitter-data-monitor-unb
