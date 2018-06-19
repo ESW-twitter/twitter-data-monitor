@@ -2,7 +2,7 @@ from app import app
 import json
 from flask import jsonify
 from modules.twitter_user import TwitterUser
-from app.models import ActorReport, TweetReport, Actor
+from app.models import ActorReport, TweetReport, Actor, TLRelationReport
 from app import db
 
 @app.route('/test')
@@ -150,9 +150,17 @@ def api_get_relations():
 			aux_line = line.split(';')
 			data['relations'].append({'actor': aux_line[0], 'retweeted': aux_line[1], 'quantity': aux_line[2]})
 
-		data['code'] = '200'
-		data['message'] = 'Success'
-		return jsonify(data)
+	tl = TLRelationReport.query.all()[0]
+	content = tl.csv_content.decode()
+	content = content.split('\n')[0]
+	content = content.split(';')
+	data['available_dates'] = []
+	for date in content[2:]:
+		data['available_dates'].append(date)
+
+	data['code'] = '200'
+	data['message'] = 'Success'
+	return jsonify(data)
 
 @app.route('/api/relations/<username>')
 def api_get_relations_actor(username):
