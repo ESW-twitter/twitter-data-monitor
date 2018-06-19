@@ -10,8 +10,3 @@ db = SQLAlchemy(app)
 
 
 from app import models, api_routes, actors_routes, tweet_routes, main_routes, relations_routes, scheduler
-
-
-
-
-# from app import models, api_routes, actors_routes, tweet_routes, main_routes, relations_routes, scheduler

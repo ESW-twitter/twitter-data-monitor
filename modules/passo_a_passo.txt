@@ -1,0 +1,23 @@
+
+git clone https://github.com/unb-cic-esw/twitter-data-monitor
+
+pip3 install -r requirements.txt
+
+Cria um app em apps.twitter.com  para gerar suas chaves
+
+export TWITTER_CONSUMER_KEY="[twitter_consumer_key do seu app]"
+export TWITTER_CONSUMER_SECRET="[twitter_consumer_secret do seu app]"
+export TWITTER_ACCESS_TOKEN="[twitter_access_token do seu app]"
+export TWITTER_ACCESS_TOKEN_SECRET="[twitter_access_token_secret do seu app]"
+
+
+Crie um banco de dados local para armazenar as informações e exporte a URL de conexão:
+
+export DATABASE_URL="driver://username:password@host:port/database_name"
+
+Exemplo com banco local MySQL de nome Twitter na porta padrão com usuário 'root' (sem senha):
+
+export DATABASE_URL="mysql+mysqldb://root@localhost/Twitter"
+
+pip3 install mysqlclient
+
