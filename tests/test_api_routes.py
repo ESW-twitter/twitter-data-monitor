@@ -22,10 +22,10 @@ class TestAPIRoutes():
         with app.app_context():
             db.create_all()
 
+    
     def tearDown():
         print("Rodando tear down...\n")
         db.drop_all()
-
 
     def test_api_get_actors(self):
         user = TwitterUser('CNN')
@@ -39,7 +39,6 @@ class TestAPIRoutes():
             TestAPIRoutes.tearDown()
 
         assert '{"actors":["CNN"],"code":"200","length":1,"message":"Success"}\n' == response.get_data().decode()
-
 
     def test_api_actors_datetime(self):
         a = ActorReport('01/02/2018', None, None)

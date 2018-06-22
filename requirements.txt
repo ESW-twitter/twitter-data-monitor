@@ -18,3 +18,4 @@ rq==0.7.0
 pytest
 pytest-cov
 unidecode
+psycopg2
