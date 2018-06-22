@@ -5,6 +5,7 @@ import json
 import tweepy
 from dateutil.relativedelta import relativedelta
 
+ 
 class TwitterAPI(tweepy.API):
     def __init__(self):
         consumer_key = os.environ.get('TWITTER_CONSUMER_KEY')
@@ -83,6 +84,9 @@ def extract_mentions(tweet_list):
     return final
 
 def extract_retweets(tweet_list):
+    '''
+    returns the number of retweets of the tweet or tweet_list
+    '''
     retweets = 0
     if type(tweet_list)==list:
         for tweet in tweet_list:
@@ -94,12 +98,18 @@ def extract_retweets(tweet_list):
     return retweets
 
 def extract_author(tweet):
+    '''
+    returns the author of the tweet (if its a retweet, otherwise returns an empty string )
+    '''
     if hasattr(tweet, 'retweeted_status'):
         return tweet.retweeted_status.author.screen_name
     else:
         return ""
             
 def extract_favorites(tweet_list):
+    '''
+    returns the number of favorites of the tweet list or single tweet
+    '''
     favorites = 0
     if type(tweet_list)==list:
         for tweet in tweet_list:
@@ -111,6 +121,9 @@ def extract_favorites(tweet_list):
     return favorites
 
 def extract_retweeted_author_id(tweet_list):
+    '''
+    returns tuples of author_id and number of occurrences of all retweets on the tweet_list 
+    '''
     ids = []
     if type(tweet_list)==list:
         for tweet in tweet_list:

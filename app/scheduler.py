@@ -26,13 +26,12 @@ if not scheduler.get_job(job_id='relations'):
 	scheduler.add_job(relations_job, 'interval', minutes=10080, replace_existing=False, id='relations')
 
 #adding tweets job for each actor
-actors = Actor.query.all() ## -- não funciona -- ##
+actors = Actor.query.all() 
 for actor in actors:
 	id = actor.id
 	if not scheduler.get_job(job_id=id):
 		scheduler.add_job(tweets_job, 'interval', minutes=10080, replace_existing=False, id=id, args=[id])
 
-# avoiding a great number of threads starting at the same time
 #rescheduling = reschedule_all_jobs(scheduler)
 
 

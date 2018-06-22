@@ -7,6 +7,9 @@ from datetime import datetime, timedelta
 
 
 def capture_actors():
+	'''
+	Performs a capture of quantitative information of all Actors returning a CSV 
+	'''
 	actors = Actor.query.all()
 	header_json = json.load(open("helpers/actors_attributes.json"))
 	csv = CsvBuilder(header_json)
@@ -24,6 +27,10 @@ def capture_actors():
 
 
 def capture_tweets(id, day=1, month=1, year=2018):
+	'''
+	Performs a capture of all Tweets from the Actor specified by id from the date specified
+	Returning a CSV
+	'''
 	header_json = json.load(open("helpers/tweets_attributes.json"))
 
 	csv = CsvBuilder(header_json)
@@ -42,6 +49,10 @@ def capture_tweets(id, day=1, month=1, year=2018):
 	return csv	
 
 def capture_relations(day=1, month=1, year=2018):
+	'''
+	Performs a capture of retweet relation between all Actors from the date specified
+	Returning a CSV
+	'''
 	header_json = json.load(open("helpers/relations_attributes.json"))
 	ids = []
 	actors = Actor.query.all()
@@ -69,6 +80,10 @@ def capture_relations(day=1, month=1, year=2018):
 
 
 def capture_relations_timeline(day=1, month=1, year=2018):
+	'''
+	Performs a capture of retweet relation between all Actors from the date specified and separeted by week
+	Returning a CSV
+	'''
 	header_json = json.load(open("helpers/relations_attributes.json"))
 	header_json = header_json[:2]
 	ids = []
@@ -128,10 +143,10 @@ def capture_relations_timeline(day=1, month=1, year=2018):
 
 def split_tweets(tweets, date_list):
 	'''
-	returns a dictionary of tweets divided by the intervals of datelist.
+	returns a dictionary of tweets divided using the intervals in date_list.
 	each key of the dicitionary is a date from the list, and the content comprises the tweets between that date and the
 	next on the list. 
-	the last date on the list won't appear on the dictionary keys.  
+	obs: the last date on the list won't appear on the dictionary keys.  
 	'''
 
 	dic = {}

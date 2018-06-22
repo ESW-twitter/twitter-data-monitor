@@ -14,13 +14,8 @@ class CsvBuilder:
         
         self.content = line
         
-    def save(self, name, dir=None):
-        if dir != None:
-            onlydir = [f for f in os.listdir(os.getcwd()+"/results/") if not isfile(join(os.getcwd()+"/results/", f))]
-            if dir not in onlydir:
-                os.mkdir(os.getcwd()+"/results/"+dir)
-            name = dir+"/"+name
-        file = open("results/"+name+".csv", 'w')
+    def save(self, name):
+        file = open(name+".csv", 'w')
         file.write(self.content)
         file.close
 

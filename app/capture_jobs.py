@@ -1,3 +1,7 @@
+#coding: utf=8
+#
+# Contains Threads of captures to be run in the scheduler
+
 from datetime import datetime, timedelta
 from apscheduler.triggers.interval import IntervalTrigger
 import threading
@@ -79,6 +83,8 @@ class relations_timeline_job:
         db.session.commit()
     
 
+# this thread is used to avoid a great number of threads running at the same time on the scheduler
+# it separates every single job on the scheduler by one minute
 class reschedule_all_jobs:
     def __init__(self, scheduler):
         self.scheduler = scheduler    
@@ -105,6 +111,7 @@ def check_actors_usernames():
                 db.session.commit()
 
 
+# auxiliary function for easily capturing tweets from all Actors, to be deleted
 def capture_tweets_from_all():
     actors = Actor.query.all()
     for actor in actors:        

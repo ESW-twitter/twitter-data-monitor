@@ -13,7 +13,7 @@ class TestFileCSV():
         csv = CsvBuilder(header_json)
         csv.save(name = "test")
         try:    
-            csvfile = open(os.path.join(os.path.dirname(__file__),'../results/test.csv'))
+            csvfile = open('tests/test.csv')
             csvfile.close()
             arquivo = True
         except:
