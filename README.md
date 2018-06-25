@@ -16,13 +16,11 @@ As instruções a seguir trazem orientações para aqueles que quiserem contribu
 * [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)
 
 ### Clonar repositório
-
 ```
-$ git clone git@github.com:code4pol/twitter-data-monitor.git
+$ git clone https://github.com/unb-cic-esw/twitter-data-monitor
 ```
 
 ### Criar virtual env
-
 ```
 $ mkvirtualenv twitter-data-monitor
 $ workon twitter-data-monitor
@@ -41,31 +39,41 @@ $ pip install -r requirements.txt
 
 Acesse o [gerenciador de aplicações do Twitter](https://apps.twitter.com/) para gerar as chaves necessárias para acesso à API da plataforma. Essas chaves deverão ser exportadas para o ambiente com os seguintes comandos:
 ```
-$ export TWITTER_CONSUMER_KEY="[twitter_consumer_key do seu app]"
-$ export TWITTER_CONSUMER_SECRET="[twitter_consumer_secret do seu app]"
-$ export TWITTER_ACCESS_TOKEN="[twitter_access_token do seu app]"
-$ export TWITTER_ACCESS_TOKEN_SECRET="[twitter_access_token_secret do seu app]"
+$ export TWITTER_CONSUMER_KEY="twitter_consumer_key_do_seu_app"
+$ export TWITTER_CONSUMER_SECRET="twitter_consumer_secret_do_seu_app"
+$ export TWITTER_ACCESS_TOKEN="twitter_access_token_do_seu_app"
+$ export TWITTER_ACCESS_TOKEN_SECRET="twitter_access_token_secret_do_seu_app"
 ```
 
 ## Banco de dados
 
 O endereço de conexão com o banco de dados deve ser exportado para o ambiente seguindo o padrão:
 ```
-$ export DATABASE_URL="driver://username:password@host:port/database_name"
+$ export DATABASE_URL="driver://usuario:senha@host:porta/nome_do_banco"
 ```
-Por exemplo:
+Como no exemplo abaixo:
 ```
-$ export DATABASE_URL="mysql://root@localhost/Twitter"
+$ export DATABASE_URL="mysql://root:123456@localhost/Twitter"
+```
+
+Note que, dependendo do banco de dados utilizado, outras bibliotecas deverão ser instaladas para correto funcionamento do programa.
+
+Se, por exemplo, for utilizado o MySQL, os seguintes comandos deverão ser executados (Ubuntu 16.04):
+
+```
+$ sudo apt-get install libmysqlclient-dev
+$ pip install mysqlclient
 ```
 
 ## Executar os testes
-
-Todos os testes foram desenvolvidos utilizando a biblioteca [unittest](https://docs.python.org/3/library/unittest.html) nativa do Python. Para executá-los, a partir da pasta raiz do projeto, execute:
-
 ```
 $ python -m pytest
 ```
 
+## Executar o servidor localmente:
+```
+$ python __init__.py
+```
 
 ## Licença
 
