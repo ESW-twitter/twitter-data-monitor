@@ -1,7 +1,7 @@
 # End-Points
 
 
-## Das capturas de Atores (followers, following, likes e número de tweets)
+## Das capturas de Atores (followers, following, likes e número de tweets):
 
 * /api/actors
 
@@ -19,13 +19,13 @@
 
 	Retorna as informações quantitativas to ator especificado pelo username na data especificada. Caso existam varias capturas no mesmo dia, estas estarão separadas pela hora/minuto da captura.
 
-## Das capturas de Tweets por ator
+## Das capturas de Tweets por ator:
 
 * /api/actor/username/date/tweets
 
 	Retorna as informações de todos os tweets daquele ator como estavam na data especificada.
 
-## Das capturas de Relações entre atores
+## Das capturas de Relações entre atores:
 
 * /api/relations
 

@@ -19,6 +19,8 @@ Para contribuir com o projeto, favor seguir estas [recomendações](https://gith
 ## Referências Úteis
 [Estrutura de Pastas](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/docs/folder_structure.md)
 
+## Questões Éticas
+Todas informações disponibilizadas e armazenadas por este projeto são obtidas através da API do próprio Twitter e são públicas. Portanto, o presente projeto está em conformidade com os [Termos de Uso do Twitter](https://developer.twitter.com/en/developer-terms/agreement-and-policy.html). 
 
 ## Licença
 Código disponível sob [Licença MIT](LICENSE)
