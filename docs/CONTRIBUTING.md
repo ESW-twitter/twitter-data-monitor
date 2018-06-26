@@ -2,6 +2,10 @@
 
 Para colaborar com o projeto Monitor de Dados do Twitter, primeiramente siga as [instruções de instalação](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/RUNNINGLOCALLY.md) e certifique-se de que consegue rodar o projeto localmente.
 
+### Alterações/Adicão de Funcionalidades:
+
+Siga as instruções abaixo sempre que realizar alterações no código e/ou adicionar funcionalidades:
+
 - Crie uma nova branch e faça alterações nela:
 ```
 $ git checkout -b nova_branch
