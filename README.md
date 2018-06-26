@@ -12,11 +12,14 @@ Para rodar o projeto localmente, confira as [instruções de instalação](https
 ## Contribuições
 Para contribuir com o projeto, favor seguir estas [recomendações](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/docs/CONTRIBUTING.md)
 
+## End-Points
+[Confira aqui](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/docs/ENDPOINTS.md) informações sobre os end-points da API desenvolvida.
+
 
 ## Referências Úteis
 [Estrutura de Pastas](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/docs/folder_structure.md)
 
 
-
 ## Licença
 Código disponível sob [Licença MIT](LICENSE)
+
