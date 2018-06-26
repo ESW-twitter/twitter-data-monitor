@@ -153,6 +153,9 @@ def api_get_relations_actor(date):
 	data = {}
 
 	relations = RelationReport.query.filter_by(date=date)
+	if not relations:
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'Sorry, no information was found.'}
+		return jsonify(data)
 
 	for relation in relations:
 		data[relation.hour]={}
@@ -165,7 +168,7 @@ def api_get_relations_actor(date):
 			aux_line = line.split(';')
 			if len(aux_line)>2:
 				data[relation.hour][aux_line[0]].append({aux_line[1]:aux_line[2]})
-		
+
 	data['code'] = '200'
 	data['message'] = 'Success'
 	return jsonify(data)
