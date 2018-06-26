@@ -4,8 +4,12 @@ Este repositório compõe projeto de pesquisa com foco empírico nas eleições 
 
 O projeto consiste na coleta sistemática de informações quantitativas da plataforma Twitter com o objetivo de subsidiar a análise do comportamento político de alguns atores da cena eleitoral durante o período de campanha. Além de seu objetivo finalístico para a coleta de dados, o projeto tem também por intuito servir de material de estudo dos alunos da disciplina Engenharia de Software do Departamento de Ciência da Computação da UnB no 1º semestre de 2018.
 
+
+## Instalação
 Para rodar o projeto localmente, confira as [instruções de instalação](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/docs/RUNNINGLOCALLY.md).
 
+
+## Contribuições
 Para contribuir com o projeto, favor seguir estas [recomendações](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/docs/CONTRIBUTING.md)
 
 
