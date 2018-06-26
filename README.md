@@ -11,7 +11,5 @@ Para rodar o projeto localmente, confira as [instruções de instalação](https
 Para contribuir com o projeto, favor seguir estas [recomendações](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/CONTRIBUTING.md)
 
 
-
-
 ## Licença
 Código disponível sob [Licença MIT](LICENSE)

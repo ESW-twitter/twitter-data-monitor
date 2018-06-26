@@ -134,131 +134,41 @@ def api_get_actor_account_date_tweets(username,date):
 @app.route('/api/relations')
 def api_get_relations():
 	data = {}
-
-	try:
-		relation = RelationReport.query.all()[-1]
-	except:
-		relation = None
-		data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
+	available_dates = []
+	relations = RelationReport.query.all()
+	if not relations:
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'Sorry, no information was found.'}
 		return jsonify(data)
 
-	if relation:
-		content = relation.csv_content.decode()
-		content = content.split('\n')
-		data['relations'] = []
-		for line in content[1:]:
-			aux_line = line.split(';')
-			try:
-				data['relations'].append({'actor': aux_line[0], 'retweeted': aux_line[1], 'quantity': aux_line[2]})
-			except:
-				pass
+	for relation in relations:
+		available_dates.append(relation.date)
 
-	tl = TLRelationReport.query.all()[0]
-	content = tl.csv_content.decode()
-	content = content.split('\n')[0]
-	content = content.split(';')
-	data['available_dates'] = []
-	for date in content[2:]:
-		data['available_dates'].append(date)
-
+	data['dates'] = list(set(available_dates))
 	data['code'] = '200'
 	data['message'] = 'Success'
 	return jsonify(data)
 
-@app.route('/api/relations/<date>/<username>')
-def api_get_relations_actor(date,username):
+@app.route('/api/relations/<date>')
+def api_get_relations_actor(date):
 	data = {}
 
-	tl = TLRelationReport.query.all()[0]
-	content = tl.csv_content.decode()
-	content_date = content.split('\n')[0]
-	content_date = content.split(';')
-
-	if date == "all":
-		try:
-			relation = RelationReport.query.all()[-1]
-		except:
-			relation = None
-			data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
-			return jsonify(data)
-
-		if relation:
-			content = relation.csv_content.decode()
-			content = content.split('\n')
-			data['relations'] = []
-
-			for line in content[1:]:
-				aux_line = line.split(';')
-				if aux_line[0] == username:
-					data['relations'].append({'retweeted': aux_line[1], 'quantity': aux_line[2]})
-
-			data['code'] = '200'
-			data['message'] = 'Success'
-			return jsonify(data)
-	try:
-		content_date = content_date.index(date)
-	except:
-		data = {'code': '400', 'message': 'Bad Request', 'details': 'Date not found.'}
+	relations = RelationReport.query.filter_by(date=date)
+	if not relations:
+		data = {'code': '400', 'message': 'Bad Request', 'details': 'Sorry, no information was found.'}
 		return jsonify(data)
 
-	data['relations'] = []
-	for line in content.split('\n'):
-		aux_line = line.split(';')
-		if aux_line[0] == username:
-			data['relations'].append({'retweeted': aux_line[1], 'quantity': aux_line[content_data]})
-
-		data['code'] = '200'
-		data['message'] = 'Success'
-		return jsonify(data)
-
-@app.route('/api/relations/<date>/<username>/<username_2>')
-def api_get_relations_between(date, username, username_2):
-	data = {}
-	tl = TLRelationReport.query.all()[0]
-	content = tl.csv_content.decode()
-	content_date = content.split('\n')[0]
-	content_date = content.split(';')
-
-	if date == 'all':
-		try:
-			relation = RelationReport.query.all()[-1]
-		except:
-			relation = None
-			data = {'code': '400', 'message': 'Bad Request', 'details': 'CSV File not found.'}
-			return jsonify(data)
-
-		if relation:
-			content = relation.csv_content.decode()
-			content = content.split('\n')
-			data['relations'] = []
-
-			for line in content[1:]:
-				aux_line = line.split(';')
-				if aux_line[0] == username and aux_line[1] == username_2:
-					data['relations'].append({'actor':aux_line[0],'retweeted': aux_line[1], 'quantity': aux_line[2]})
-				elif aux_line[1] == username and aux_line[0] == username_2:
-					data['relations'].append({'actor':aux_line[1],'retweeted': aux_line[0], 'quantity': aux_line[2]})
-
-
-			data['code'] = '200'
-			data['message'] = 'Success'
-			return jsonify(data)
-
-	try:
-		content_date = content_date.index(date)
-	except:
-		data = {'code': '400', 'message': 'Bad Request', 'details': 'Date not found.'}
-		return jsonify(data)
-
-	data['relations'] = []
-	for line in content.split('\n')[1:]:
-		aux_line = line.split(';')
-		if aux_line[0] == username and aux_line[1] == username_2:
-			data['relations'].append({'actor':aux_line[0],'retweeted': aux_line[1], 'quantity': aux_line[content_date]})
-		elif aux_line[1] == username and aux_line[0] == username_2:
-			data['relations'].append({'actor':aux_line[1],'retweeted': aux_line[0], 'quantity': aux_line[content_date]})
-
-
-		data['code'] = '200'
-		data['message'] = 'Success'
-		return jsonify(data)
+	for relation in relations:
+		data[relation.hour]={}
+		lines = relation.csv_content.decode().split('\n')
+		for line in lines[1:]:
+			aux_line = line.split(';')
+			if len(aux_line)>2:
+				data[relation.hour][aux_line[0]]=[]
+		for line in lines[1:]:
+			aux_line = line.split(';')
+			if len(aux_line)>2:
+				data[relation.hour][aux_line[0]].append({aux_line[1]:aux_line[2]})
+		
+	data['code'] = '200'
+	data['message'] = 'Success'
+	return jsonify(data)
