@@ -12,7 +12,7 @@ class TestFileCSV():
         header_json = json.load(open("helpers/actors_attributes.json"))
         csv = CsvBuilder(header_json)
         csv.save(name = "tests/test")
-        try:    
+        try:
             csvfile = open('tests/test.csv')
             csvfile.close()
             arquivo = True
@@ -23,12 +23,10 @@ class TestFileCSV():
     def test_list_to_row(self):
         vector = ['SolidariedadeInternacional', 30 , '3','DemarcaçãoJá','qualquercoisa']
         row = list_to_row(vector)
-        assert row == "SolidariedadeInternacional;30;3;DemarcaçãoJá;qualquercoisa;\n" 
-       
+        assert row == "SolidariedadeInternacional;30;3;DemarcaçãoJá;qualquercoisa;\n"
+
     def test_list_to_string(self):
         vector = ['SolidariedadeInternacional', 'DemocratizeJá', 'LulapeloBrasil','DemarcaçãoJá','OcupaCuritiba']
         hashtags = list_to_string(vector, hashtag=True)
         assert "#SolidariedadeInternacional" in hashtags
         assert "#DemocratizeJá" in hashtags
-        
-    
