@@ -1,6 +1,6 @@
 # Colaborando com o projeto
 
-Para colaborar com o projeto Monitor de Dados do Twitter, primeiramente siga as [instruções de instalação](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/RUNNINGLOCALLY.md) e certifique-se de que consegue rodar o projeto localmente. 
+Para colaborar com o projeto Monitor de Dados do Twitter, primeiramente siga as [instruções de instalação](https://github.com/unb-cic-esw/twitter-data-monitor/blob/master/RUNNINGLOCALLY.md) e certifique-se de que consegue rodar o projeto localmente.
 
 ### Alterações/Adicão de Funcionalidades:
 
