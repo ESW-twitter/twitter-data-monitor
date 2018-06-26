@@ -11,7 +11,7 @@ class TestFileCSV():
     def test_file_exist(self):
         header_json = json.load(open("helpers/actors_attributes.json"))
         csv = CsvBuilder(header_json)
-        csv.save(name = "test")
+        csv.save(name = "tests/test")
         try:    
             csvfile = open('tests/test.csv')
             csvfile.close()
