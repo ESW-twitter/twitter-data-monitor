@@ -14,6 +14,5 @@ Para contribuir com o projeto, favor seguir estas [recomendações](https://gith
 
 
 
-
 ## Licença
 Código disponível sob [Licença MIT](LICENSE)
