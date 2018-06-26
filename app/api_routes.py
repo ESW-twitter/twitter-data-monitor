@@ -153,7 +153,7 @@ def api_get_relations_actor(date):
 	data = {}
 
 	relations = RelationReport.query.filter_by(date=date)
-	if not relations:
+	if not relations.first():
 		data = {'code': '400', 'message': 'Bad Request', 'details': 'Sorry, no information was found.'}
 		return jsonify(data)
 

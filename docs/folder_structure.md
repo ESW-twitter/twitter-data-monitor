@@ -8,16 +8,15 @@
     Páginas HTML da aplicação.
 * helpers - _deprecated_
 
-     Incialmente, continha funções para preenchimento de CSVs. Atualmente, possui os modelos dos arquivos CSV.
+     Incialmente, continha funções para preenchimento de CSVs. Atualmente, possui os modelos dos arquivos CSV. Também possui o arquivo "politicians.json" que contém uma lista de atores pré-definidos pelo Resocie.
 * modules
 
     Arquivos de integração e manipulação com a Twitter API.
-* results
 
-    Backup de CSVs gerados.
 * tests
 
     Arquivos de testes unitários e de integração.
 
 * docs
+
   Pasta referente a arquivos de documentação.
